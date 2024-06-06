@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond } from "next/font/google";
+import Header from "@/app/header";
+import Footer from "@/app/footer";
 import "./globals.css";
 
 const garamond = Cormorant_Garamond({
@@ -18,8 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={garamond.className}>{children}</body>
-    </html>
+    <>
+      <html lang="en" className="relative">
+        <body className={garamond.className}>
+          <Header />
+          <div className="mb-16">{children}</div>
+          <Footer />
+        </body>
+      </html>
+    </>
   );
 }
