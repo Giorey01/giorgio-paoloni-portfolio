@@ -9,5 +9,6 @@ This is a project for my personal photography portfolio powered by NextJS
 ![image](https://github.com/Giorey01/giorgio-paoloni-portfolio/assets/61801344/7fb8a645-35f6-4925-b9d5-3b26de9c536b)
 
 ## Desktop Version
-![image](https://github.com/Giorey01/giorgio-paoloni-portfolio/assets/61801344/2b65659a-53fa-4378-8551-92f5fe2befc6)
+![image](https://github.com/Giorey01/giorgio-paoloni-portfolio/assets/61801344/28298b32-5e17-4bb8-97c0-ce0e7555d797)
+
 
