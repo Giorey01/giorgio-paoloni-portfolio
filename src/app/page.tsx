@@ -15,7 +15,7 @@ export default function Home() {
           alt="Picture of the author"
         />
         <h2 className="text-3xl font-semibold mt-4">
-          {"Moments Made Eternal"}
+          {'"Moments Made Eternal"'}
         </h2>
         <span className="text-lg font-medium text-gray-500 text-center leading-9">
           <p className="tracking-wide ">Turn fleeting moments</p>
