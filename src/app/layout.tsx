@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <html lang="en" className="relative">
+      <html lang="en" className="relative min-h-screen">
         <body className={garamond.className}>
           <Header />
           <div className="mb-16">{children}</div>
