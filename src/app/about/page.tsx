@@ -1,23 +1,49 @@
 import React from "react";
+import Image from "next/image";
+import Me from "@/assets/Foto_Profilo-removebg-preview.png";
+import { FaArrowDownLong } from "react-icons/fa6";
 
 function About() {
   return (
-    <div className="py-5 px-10 text-justify">
-      <h1 className="font-bold text-3xl text-center mb-3">Lorem</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti, iste
-        modi nulla ex nemo exercitationem neque perferendis necessitatibus
-        accusamus, omnis tempore, sapiente architecto? Hic velit ratione
-        laboriosam! Recusandae consequatur quod molestias, debitis ut magni
-        molestiae totam repudiandae non doloremque cumque porro exercitationem,
-        accusamus ipsam iure! Inventore delectus placeat possimus totam saepe
-        voluptates quam minus veniam velit, temporibus dolorum accusantium quo
-        earum, tenetur repellendus amet perferendis explicabo. Cum provident
-        consequuntur veniam dolore, ad quaerat tenetur iure laudantium maxime,
-        hic, sit corrupti. Autem odit odio iste? Tenetur eaque labore quod
-        molestiae in, ducimus atque natus sint enim possimus dolor beatae et.
-        Non
+    <div className="flex flex-col items-center gap-8 min-h-full">
+      <Image src={Me} alt="ciao" />
+      <h1 className="text-center text-6xl font-extrabold">HEY CIAO</h1>
+      <p className="text-center px-10 tracking-wide">
+        Ciao, mi chiamo Giorgio Paoloni. <br />
+        Nel tempo libero mi piace documentare i posti che visito attraverso la
+        fotografia. Ogni scatto è un modo per condividere le esperienze e le
+        bellezze che incontro lungo il mio cammino.
       </p>
+      <h1 className="text-4xl font-semibold mt-8">Contattami</h1>
+      <form
+        action=""
+        className="flex flex-col gap-5 justify-start w-full px-10"
+      >
+        <h4 className="text-2xl">Your email</h4>
+        <input
+          type="email"
+          name=""
+          id="1"
+          placeholder="email"
+          className="border-2 rounded-md p-1 focus:outline-none focus:border-black transition-colors duration-300"
+        />
+        <h4 className="text-2xl">Message</h4>
+        <input
+          type="text"
+          name="message"
+          id="2"
+          placeholder="message"
+          className="border-2 rounded-md p-1 h-28 focus:outline-none focus:border-black transition-colors duration-300"
+        />
+        <div className="text-center">
+          <button
+            type="submit"
+            className="bg-black w-28 text-white rounded-md font-semibold p-3"
+          >
+            Send
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
