@@ -89,8 +89,6 @@
 }
 
 .markdown-container img {
-  max-width: 100%; /* Rende le immagini responsive */
-  height: auto; /* Mantiene il rapporto di aspetto */
   border-radius: 30px; /* Angoli arrotondati per le immagini */
   padding: 1.25rem;
 }

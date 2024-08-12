@@ -5,6 +5,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import getTitleAndDescMetadata from "@/app/utils/getTitleAndDescMetadata";
 import "./markdownpage.css";
+import Image from "next/image";
 
 // Definisce l'interfaccia per i metadati del post
 interface PostMetadata {
@@ -58,7 +59,27 @@ function BlogPage({ params }: BlogPageProps) {
   return (
     <main>
       <article className="markdown-container">
-        <Markdown>{post.content}</Markdown>
+        <Markdown
+          options={{
+            overrides: {
+              img: {
+                component: ({ src, alt }) => (
+                  <div className="image-wrapper">
+                    <Image
+                      src={src}
+                      alt={alt}
+                      width={400} // Definisci una larghezza fissa per le immagini
+                      height={400} // Definisci un'altezza fissa per le immagini
+                      className="custom-image"
+                    />
+                  </div>
+                ),
+              },
+            },
+          }}
+        >
+          {post.content}
+        </Markdown>
       </article>
     </main>
   );
