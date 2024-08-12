@@ -2,7 +2,7 @@
 title: "Easy_Nature_Photography"
 date: "2024-08-09"
 desc: "Capturing the beauty of nature doesn’t..."
-thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
+thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.webp"
 ---
 
 # Easy_Nature_Photography
@@ -15,7 +15,7 @@ Capturing the beauty of nature doesn’t require professional equipment or skill
 - **Focus on Details:** Capture close-ups of plants and textures.
 - **Frame Your Shots:** Use natural elements to frame your subject.
 
-<img src="https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg" alt="bella" />
+<img src="https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.webp" alt="bella" />
 
 **Quick Techniques:**
 

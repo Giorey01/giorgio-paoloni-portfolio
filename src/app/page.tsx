@@ -9,12 +9,11 @@ export default function Home() {
       </h1>
       <div className="flex flex-col justify-center items-center mt-20">
         <Image
-          src={hero_image_mobile}
+          src="https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.webp"
           className="rounded-lg"
           width={310}
           height={310}
           alt="Picture of the author"
-          placeholder="blur"
         />
         <h2 className="text-3xl font-semibold mt-4">
           {'"Moments Made Eternal"'}
