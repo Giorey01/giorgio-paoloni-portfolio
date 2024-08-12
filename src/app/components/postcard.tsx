@@ -13,10 +13,13 @@ interface PostCardProps {
 
 function PostCard({ post }: PostCardProps) {
   return (
-    <Link href={`/blog/${post.slug}`}>
-      <div className="h-64 w-64 flex flex-col text-center items-center p-2">
-        <h4 className="text-xl font-bold">{post.title}</h4>
-        <p>{post.date}</p>
+    <Link href={`/blog/${post.slug}`} className="w-full p-5">
+      <div className="border-2 border-gray-950 w-100 flex justify-evenly text-center items-center p-2">
+        <div>
+          <h4 className="text-xl font-bold">{post.title}</h4>
+          <p>{post.date}</p>
+          <p>{post.desc}</p>
+        </div>
         <Image
           src={post.thumbnail}
           alt="peppa"

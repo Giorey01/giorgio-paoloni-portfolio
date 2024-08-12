@@ -1,7 +1,7 @@
 ---
 title: "Diving into Arashiyama"
 date: "2020-01-02"
-desc: "asgugu"
+desc: "Discover the beauty and tranquility of nature by..."
 thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
 ---
 
