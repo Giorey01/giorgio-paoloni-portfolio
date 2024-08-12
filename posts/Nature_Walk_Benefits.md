@@ -1,6 +1,6 @@
 ---
-title: "Diving into Arashiyama"
-date: "2020-01-02"
+title: "Nature_Walk_Benefits"
+date: "2024-08-02"
 desc: "Taking a nature walk offers numerous..."
 thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
 ---

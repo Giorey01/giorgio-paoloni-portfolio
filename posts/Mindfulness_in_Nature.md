@@ -1,6 +1,6 @@
 ---
-title: "Diving into Arashiyama"
-date: "2020-01-02"
+title: "Mindfulness_in_Nature"
+date: "2024-08-04"
 desc: "Practicing mindfulness in nature helps you..."
 thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
 ---

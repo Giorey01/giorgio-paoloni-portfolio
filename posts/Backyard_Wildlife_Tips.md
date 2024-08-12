@@ -1,6 +1,6 @@
 ---
-title: "Diving into Arashiyama"
-date: "2020-01-02"
+title: "Backyard_Wildlife_Tips"
+date: "2024-08-12"
 desc: "Creating a welcoming environment for wildlife in..."
 thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
 ---
