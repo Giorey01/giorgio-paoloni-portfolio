@@ -14,6 +14,7 @@ export default function Home() {
           width={310}
           height={310}
           alt="Picture of the author"
+          placeholder="blur"
         />
         <h2 className="text-3xl font-semibold mt-4">
           {'"Moments Made Eternal"'}
