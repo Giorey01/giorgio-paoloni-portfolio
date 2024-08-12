@@ -10,6 +10,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center mt-20">
         <Image
           src={hero_image_mobile}
+          className="rounded-lg"
           width={310}
           height={310}
           alt="Picture of the author"
