@@ -2,7 +2,7 @@
 title: "Mindfulness_in_Nature"
 date: "2024-08-04"
 desc: "Practicing mindfulness in nature helps you..."
-thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
+thumbnail: "https://images.pexels.com/photos/4412934/pexels-photo-4412934.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
 # Mindfulness_in_Nature
@@ -14,6 +14,8 @@ Practicing mindfulness in nature helps you stay present and enhances your connec
 - **Breathing Exercises:** Focus on your breath while observing nature.
 - **Sensory Awareness:** Pay attention to sights, sounds, and smells around you.
 - **Grounding Techniques:** Feel the texture of the ground beneath your feet.
+
+<img src="https://images.pexels.com/photos/4412934/pexels-photo-4412934.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="bella" />
 
 **Getting Started:**
 

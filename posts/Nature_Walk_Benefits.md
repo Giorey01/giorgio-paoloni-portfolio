@@ -2,7 +2,7 @@
 title: "Nature_Walk_Benefits"
 date: "2024-08-02"
 desc: "Taking a nature walk offers numerous..."
-thumbnail: "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.jpg"
+thumbnail: "https://images.pexels.com/photos/3876394/pexels-photo-3876394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
 # Nature_Walk_Benefits
@@ -14,6 +14,8 @@ Taking a nature walk offers numerous physical and mental health benefits. Whethe
 - **Stress Reduction:** Natural settings help lower stress levels.
 - **Enhanced Mood:** Exposure to greenery boosts mood and mental clarity.
 - **Physical Fitness:** Regular walking improves cardiovascular health.
+
+<img src="https://images.pexels.com/photos/3876394/pexels-photo-3876394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="bella" />
 
 **Simple Steps to Start:**
 

@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: "giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com",
         pathname: "**", // Matches any path within the bucket
       },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+      },
     ],
   },
 };
