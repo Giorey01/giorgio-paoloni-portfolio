@@ -1,6 +1,6 @@
 import React from "react";
-import getPostMetadata from "@/app/utils/getPostMetadata";
-import PostCard from "../components/postcard";
+import getPostMetadata from "@/utils/getPostMetadata";
+import PostCard from "../../components/postcard";
 
 function Blog() {
   const postMetadata = getPostMetadata("posts");

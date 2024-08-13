@@ -1,9 +1,9 @@
 import React from "react";
 import Markdown from "markdown-to-jsx";
-import getPostMetadata from "@/app/utils/getPostMetadata";
+import getPostMetadata from "@/utils/getPostMetadata";
 import fs from "fs";
 import matter from "gray-matter";
-import getTitleAndDescMetadata from "@/app/utils/getTitleAndDescMetadata";
+import getTitleAndDescMetadata from "@/utils/getTitleAndDescMetadata";
 import "./markdownpage.css";
 import Image from "next/image";
 
