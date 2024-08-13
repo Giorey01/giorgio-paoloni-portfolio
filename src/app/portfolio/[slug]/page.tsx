@@ -18,7 +18,7 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {images?.map((image, index) => (
-        <div className="relative w-full overflow-hidden rounded-lg">
+        <div key={index} className="relative w-full overflow-hidden rounded-lg">
           <Image
             key={index}
             src={`https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/${image.Key}`}
