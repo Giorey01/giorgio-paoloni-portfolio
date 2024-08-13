@@ -40,17 +40,13 @@ export const getFirstImageFromFolder = async (prefix: string) => {
   const params: ListObjectsV2CommandInput = {
     Bucket: BUCKET_NAME,
     Prefix: prefix,
-    MaxKeys: 1,
+    MaxKeys: 2,
   };
   const command = new ListObjectsV2Command(params);
 
   try {
     const response = await client.send(command);
-    return response.Contents?.filter(
-      (content) =>
-        content.Key?.split("/").length === prefix.split("/").length + 1 &&
-        content.Size != 0
-    );
+    return response.Contents?.find((content) => content.Size !== 0);
   } catch (error) {
     console.error("Error fetching objects:", error);
     throw error;

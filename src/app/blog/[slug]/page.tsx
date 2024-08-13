@@ -54,7 +54,6 @@ interface BlogPageProps {
 function BlogPage({ params }: BlogPageProps) {
   const { slug } = params;
   const post = getPostContent(slug);
-  console.log(post);
 
   return (
     <main>
