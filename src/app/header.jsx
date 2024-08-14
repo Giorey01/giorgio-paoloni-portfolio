@@ -28,7 +28,7 @@ function Header() {
       </div>
 
       <div
-        className={`fixed inset-0 bg-white flex flex-col justify-center items-center z-10 transform transition-transform duration-300 ${
+        className={`fixed inset-0 bg-white flex flex-col justify-center items-center z-50 transform transition-transform duration-300 ${
           isNavOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
