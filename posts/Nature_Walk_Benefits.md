@@ -5,7 +5,7 @@ desc: "Taking a nature walk offers numerous..."
 thumbnail: "https://images.pexels.com/photos/3876394/pexels-photo-3876394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
-# Nature_Walk_Benefits
+# Nature Walk Benefits
 
 Taking a nature walk offers numerous physical and mental health benefits. Whether you’re strolling through a park or hiking in the woods, spending time outdoors can improve your overall well-being.
 
