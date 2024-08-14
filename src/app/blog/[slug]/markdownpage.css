@@ -2,11 +2,10 @@
   font-size: 1rem; /* Imposta la dimensione del testo di base */
   color: #333; /* Colore del testo */
   line-height: 1.6; /* Altezza della linea per una lettura più fluida */
-  max-width: 800px; /* Larghezza massima per un contenuto leggibile */
-  margin: auto; /* Centratura del contenuto */
-  padding: 1rem; /* Spaziatura interna */
-  background-color: #f9f9f9; /* Colore di sfondo leggero per il contrasto */
+  background-color: #e8e6e3; /* Colore di sfondo leggero per il contrasto */
   border-radius: 8px; /* Angoli arrotondati per un aspetto più moderno */
+  padding: 1rem;
+  margin: 1rem;
 }
 
 .markdown-container h1 {
@@ -14,6 +13,9 @@
   margin-bottom: 0.5rem; /* Spazio sotto l'intestazione */
   border-bottom: 2px solid #ddd; /* Sottolineatura sottile per l'intestazione */
   padding-bottom: 0.25rem; /* Spazio sotto il testo per l'intestazione */
+  word-wrap: break-word; /* Consente di avvolgere parole lunghe */
+  overflow-wrap: break-word; /* Supporto aggiuntivo per avvolgimento */
+  white-space: normal; /* Assicurati che il testo possa andare a capo */
 }
 
 .markdown-container h2 {
