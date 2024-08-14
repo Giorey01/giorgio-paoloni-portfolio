@@ -11,15 +11,22 @@ function Header() {
   return (
     <>
       {/* Navbar per versioni desktop */}
-      <div className="hidden md:flex items-center justify-between px-7 py-4 mt-4 h-10 w-full">
+      <div className="flex items-center justify-between p-7 mt-4 h-10 w-11/12 border-2 border-[#2F3645] border-opacity-60 rounded-3xl bg-[#e8e6e3] bg-opacity-90">
         <Link
           href="https://www.instagram.com/_jojifilm_/"
           rel="noopener noreferrer"
           target="_blank"
         >
-          <FaInstagram className="scale-150 cursor-pointer" />
+          <FaInstagram className="scale-150 cursor-pointer hover:opacity-45 transition-all" />
         </Link>
-        <div className="flex space-x-4">
+        <button
+          aria-expanded={isNavOpen}
+          className="scale-150 cursor-pointer h-16 md:hidden hover:opacity-45 transition-all"
+          onClick={() => setIsNavOpen((prev) => !prev)}
+        >
+          <RxHamburgerMenu />
+        </button>
+        <div className="hidden md:flex space-x-4 gap-5">
           <Link href="/" className="hover:text-gray-700">
             Home
           </Link>
@@ -35,25 +42,8 @@ function Header() {
         </div>
       </div>
 
-      {/* Menu Mobile */}
-      <div className="md:hidden flex items-center justify-between px-7 mt-4 h-10 w-full">
-        <Link
-          href="https://www.instagram.com/_jojifilm_/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FaInstagram className="scale-150 cursor-pointer" />
-        </Link>
-        <button
-          aria-expanded={isNavOpen}
-          className="scale-150 cursor-pointer h-16"
-          onClick={() => setIsNavOpen((prev) => !prev)}
-        >
-          <RxHamburgerMenu />
-        </button>
-      </div>
       <div
-        className={`fixed inset-0 bg-white flex flex-col justify-center items-center z-50 transform transition-transform duration-300 md:hidden ${
+        className={`fixed inset-0 bg-[#EEEDEB] flex flex-col justify-center items-center z-50 transform transition-transform duration-300 md:hidden ${
           isNavOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

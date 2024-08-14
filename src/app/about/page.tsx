@@ -25,7 +25,7 @@ function About() {
         action=""
         className="flex flex-col gap-5 justify-start w-full px-10"
       >
-        <h4 className="text-2xl">Your email</h4>
+        <h4 className="text-xl">Your email</h4>
         <input
           type="email"
           name=""
@@ -33,7 +33,7 @@ function About() {
           placeholder="email"
           className="border-2 rounded-md p-1 focus:outline-none focus:border-black transition-colors duration-300"
         />
-        <h4 className="text-2xl">Message</h4>
+        <h4 className="text-xl">Message</h4>
         <input
           type="text"
           name="message"
