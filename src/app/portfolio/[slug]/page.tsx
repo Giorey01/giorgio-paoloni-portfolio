@@ -11,10 +11,11 @@ interface PortfolioPageProps {
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = params;
   const decodedSlug = decodeURIComponent(slug);
+  console.log(decodedSlug);
   const images = await getImagesFromFolder(
     "Portfolio/" + decodedSlug.charAt(0).toUpperCase() + decodedSlug.slice(1)
   );
-
+  console.log(images);
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {images?.map((image, index) => (
