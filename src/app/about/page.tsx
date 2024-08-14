@@ -9,6 +9,8 @@ function About() {
         src={
           "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
         }
+        width={500}
+        height={500}
         alt="ciao"
       />
       <h1 className="text-center text-6xl font-extrabold">HEY CIAO</h1>
