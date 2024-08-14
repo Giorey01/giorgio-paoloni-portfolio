@@ -1,12 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import Me from "@/assets/Foto_Profilo-removebg-preview.png";
 import { FaArrowDownLong } from "react-icons/fa6";
 
 function About() {
   return (
     <div className="flex flex-col items-center gap-8 min-h-full">
-      <Image src={Me} alt="ciao" />
+      <Image
+        src={
+          "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Assets/Foto_Profilo-removebg-preview.webp"
+        }
+        alt="ciao"
+      />
       <h1 className="text-center text-6xl font-extrabold">HEY CIAO</h1>
       <p className="text-center px-10 tracking-wide">
         Ciao, mi chiamo Giorgio Paoloni. <br />
