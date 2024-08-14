@@ -14,7 +14,7 @@ const PortfolioCard = async ({ folder }: PortfolioCardProps) => {
   const imageObject = await getFirstImageFromFolder(folder.Key ?? "");
   return (
     <div className="relative w-full h-64 p-2 text-center">
-      <Link href={"/" + folder.Key?.toLocaleLowerCase()}>
+      <Link href={"/" + folder.Key?.toLowerCase()}>
         <div className="absolute inset-0">
           <Image
             src={`https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/${imageObject?.Key}`}
