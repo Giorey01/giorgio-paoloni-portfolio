@@ -35,7 +35,7 @@ const nextConfig = {
           },
           {
             key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin", // Controlla quali informazioni del referrer sono inviate insieme alle richieste
+            value: "no-referrer",
           },
           {
             key: "Permissions-Policy",
