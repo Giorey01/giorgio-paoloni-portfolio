@@ -13,14 +13,14 @@ function About() {
         height={500}
         alt="ciao"
       />
-      <h1 className="text-center text-6xl font-extrabold">HEY CIAO</h1>
+      <h1 className="text-center text-6xl font-extrabold">HELLO!</h1>
       <p className="text-center px-10 tracking-wide">
-        Ciao, mi chiamo Giorgio Paoloni. <br />
-        Nel tempo libero mi piace documentare i posti che visito attraverso la
-        fotografia. Ogni scatto è un modo per condividere le esperienze e le
-        bellezze che incontro lungo il mio cammino.
+        Hi, my name is Giorgio Paoloni. <br />
+        In my free time I like to document the places I visit through
+        photography. Every shot is a way to share the experiences and beauties I
+        encounter along my path.
       </p>
-      <h1 className="text-4xl font-semibold mt-8">Contattami</h1>
+      <h1 className="text-4xl font-semibold mt-8">Contact me</h1>
       <form
         action=""
         className="flex flex-col gap-5 justify-start w-full px-10"
