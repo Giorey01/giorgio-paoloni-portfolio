@@ -7,7 +7,7 @@ function About() {
     <div className="flex flex-col items-center gap-8 min-h-full">
       <Image
         src={
-          "https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Assets/Foto_Profilo-removebg-preview.webp"
+          "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
         }
         alt="ciao"
       />

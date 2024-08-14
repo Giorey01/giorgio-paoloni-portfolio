@@ -9,7 +9,7 @@ export default function Home() {
       </h1>
       <div className="flex flex-col justify-center items-center mt-20">
         <Image
-          src="https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/Hero_picture_mobile.webp"
+          src="https://d321io5nxf2wuu.cloudfront.net/Hero_picture_mobile.webp"
           className="rounded-lg"
           width={310}
           height={310}
