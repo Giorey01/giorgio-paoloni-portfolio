@@ -20,8 +20,7 @@ const PortfolioCard = async ({ folder }: PortfolioCardProps) => {
             src={`https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/${imageObject?.Key}`}
             alt="Descrizione dell'immagine"
             fill
-            objectFit="cover"
-            className="rounded-lg"
+            className="rounded-lg object-cover"
           />
         </div>
         <h2 className="absolute inset-0 flex items-center justify-center text-white font-bold z-10">
