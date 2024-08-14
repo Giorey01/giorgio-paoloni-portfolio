@@ -12,13 +12,14 @@ interface PortfolioCardProps {
 
 const PortfolioCard = async ({ folder }: PortfolioCardProps) => {
   const imageObject = await getFirstImageFromFolder(folder.Key ?? "");
+  const alt = imageObject?.Key?.split("/").pop();
   return (
     <div className="relative w-full h-64 p-2 text-center">
       <Link href={"/" + folder.Key?.toLowerCase()}>
         <div className="absolute inset-0">
           <Image
             src={`https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com/${imageObject?.Key}`}
-            alt="Descrizione dell'immagine"
+            alt={alt ?? ""}
             fill
             className="rounded-lg object-cover"
             placeholder="blur"
