@@ -58,7 +58,7 @@ function Header() {
         }`}
       >
         <div
-          className="absolute top-0 flex items-center justify-between px-7 mt-4 w-full h-16"
+          className="absolute top-0 flex items-center justify-between px-7 mt-4 w-full h-10"
           onClick={() => setIsNavOpen(false)}
         >
           <Link
