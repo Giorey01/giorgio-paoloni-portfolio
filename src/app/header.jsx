@@ -27,16 +27,28 @@ function Header() {
           <RxHamburgerMenu />
         </button>
         <div className="hidden md:flex space-x-4 gap-5">
-          <Link href="/" className="hover:text-gray-700">
+          <Link
+            href="/"
+            className="hover:text-gray-700 hover:scale-110 transition-all"
+          >
             Home
           </Link>
-          <Link href="/about" className="hover:text-gray-700">
+          <Link
+            href="/about"
+            className="hover:text-gray-700 hover:scale-110 transition-all"
+          >
             About
           </Link>
-          <Link href="/portfolio" className="hover:text-gray-700">
+          <Link
+            href="/portfolio"
+            className="hover:text-gray-700 hover:scale-110 transition-all"
+          >
             Portfolio
           </Link>
-          <Link href="/blog" className="hover:text-gray-700">
+          <Link
+            href="/blog"
+            className="hover:text-gray-700 hover:scale-110 transition-all"
+          >
             Blog
           </Link>
         </div>

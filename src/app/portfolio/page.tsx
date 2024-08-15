@@ -8,7 +8,7 @@ const Portfolio = async () => {
 
   return (
     <div>
-      <h1 className="text-3xl text-center font-bold p-10">
+      <h1 className="text-3xl text-center font-bold p-10 lg:p-16">
         Dive into my world
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center p-4 md:p-8 lg:p-14">

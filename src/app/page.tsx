@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="mt-12">
-      <h1 className="text-4xl font-extrabold text-center italic">
+    <div>
+      <h1 className="text-4xl font-extrabold text-center italic p-16">
         Hi i’m Giorgio
       </h1>
-      <div className="flex flex-col justify-center items-center mt-20">
+      <div className="flex flex-col justify-center items-center">
         <Image
           src="https://d321io5nxf2wuu.cloudfront.net/Assets/Hero_picture_mobile.webp"
           className="rounded-lg"
