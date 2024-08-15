@@ -33,7 +33,7 @@ function About() {
           name=""
           id="1"
           placeholder="email"
-          className="border-2 rounded-md p-1 focus:outline-none focus:border-black transition-colors duration-300"
+          className="border-2 rounded-md p-1 focus:outline-none focus:border-[#2F3645] transition-colors duration-300"
         />
         <h4 className="text-xl">Message</h4>
         <input
@@ -41,12 +41,12 @@ function About() {
           name="message"
           id="2"
           placeholder="message"
-          className="border-2 rounded-md p-1 h-28 focus:outline-none focus:border-black transition-colors duration-300"
+          className="border-2 rounded-md p-1 h-28 focus:outline-none focus:border-[#2F3645] transition-colors duration-300"
         />
         <div className="text-center">
           <button
             type="submit"
-            className="bg-black w-28 text-white rounded-md font-semibold p-3"
+            className="bg-[#2F3645] w-28 text-[#EEEDEB] rounded-md font-semibold p-3"
           >
             Send
           </button>
