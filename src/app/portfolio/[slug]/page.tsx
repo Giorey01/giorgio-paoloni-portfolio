@@ -45,7 +45,7 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   );
   console.log(images);
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="p-4 md:p-8 lg:p-14 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {images?.map((image, index) => (
         <div key={index} className="relative w-full overflow-hidden rounded-lg">
           <Image
