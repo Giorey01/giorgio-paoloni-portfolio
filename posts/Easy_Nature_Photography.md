@@ -5,7 +5,7 @@ desc: "Capturing the beauty of nature doesn’t..."
 thumbnail: "https://d321io5nxf2wuu.cloudfront.net/Assets/Hero_picture_mobile.webp"
 ---
 
-# Easy_Nature_Photography
+# Easy Nature Photography
 
 Capturing the beauty of nature doesn’t require professional equipment or skills. With a few simple tips, you can take stunning nature photos that showcase the world around you.
 

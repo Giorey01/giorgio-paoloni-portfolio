@@ -5,7 +5,7 @@ desc: "Practicing mindfulness in nature helps you..."
 thumbnail: "https://images.pexels.com/photos/4412934/pexels-photo-4412934.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
-# Mindfulness_in_Nature
+# Mindfulness in Nature
 
 Practicing mindfulness in nature helps you stay present and enhances your connection to the environment. Embrace these simple practices to integrate mindfulness into your outdoor experiences.
 

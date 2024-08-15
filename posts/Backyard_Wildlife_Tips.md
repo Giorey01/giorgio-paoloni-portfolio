@@ -5,7 +5,7 @@ desc: "Creating a welcoming environment for wildlife in..."
 thumbnail: "https://images.pexels.com/photos/9956949/pexels-photo-9956949.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
-# Backyard_Wildlife_Tips
+# Backyard Wildlife Tips
 
 Creating a welcoming environment for wildlife in your backyard can bring joy and help local species thrive. Here are some tips to attract and support wildlife.
 

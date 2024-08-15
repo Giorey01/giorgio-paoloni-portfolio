@@ -5,7 +5,7 @@ desc: "Discover the beauty and tranquility of nature by..."
 thumbnail: "https://images.pexels.com/photos/2894944/pexels-photo-2894944.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 ---
 
-# Hidden_Forest_Trails
+# Hidden Forest Trails
 
 Discover the beauty and tranquility of nature by exploring hidden forest trails near you. These trails offer a chance to escape the hustle and bustle of daily life and reconnect with the natural world.
 
