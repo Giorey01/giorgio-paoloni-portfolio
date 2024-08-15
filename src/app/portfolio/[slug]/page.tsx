@@ -1,5 +1,8 @@
 import React from "react";
-import { getImagesFromFolder } from "@/utils/awsS3UtilityFunctions";
+import {
+  getImagesFromFolder,
+  getFoldersInFolder,
+} from "@/utils/awsS3UtilityFunctions";
 import Image from "next/image";
 
 interface PortfolioPageProps {
@@ -7,6 +10,31 @@ interface PortfolioPageProps {
     slug: string;
   };
 }
+
+export const generateStaticParams = async () => {
+  const folders = await getFoldersInFolder("Portfolio/");
+
+  if (!folders) {
+    return [];
+  }
+
+  const validFolders = folders.filter(
+    (folder: { Key?: string | null }) =>
+      folder.Key !== undefined && folder.Key !== null
+  );
+
+  const slugs = validFolders
+    .map((folder) => {
+      const parts = folder.Key!.split("/");
+
+      return parts[1] || null;
+    })
+    .filter((slug): slug is string => slug !== null);
+
+  return slugs.map((slug) => ({
+    slug,
+  }));
+};
 
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = params;
