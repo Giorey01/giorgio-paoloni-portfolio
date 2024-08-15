@@ -3,13 +3,13 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div>
-      <h1 className="text-4xl font-extrabold text-center italic p-16">
+      <h1 className="text-4xl font-extrabold text-center italic pt-16 pb-16">
         Hi i’m Giorgio
       </h1>
       <div className="flex flex-col justify-center items-center">
         <Image
           src="https://d321io5nxf2wuu.cloudfront.net/Assets/Hero_picture_mobile.webp"
-          className="rounded-lg"
+          className="rounded-lg animate-scale-up-center"
           width={310}
           height={310}
           alt="Picture of the author"
