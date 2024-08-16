@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       animation: {
         "scale-up-center":
-          "scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both",
+          "scale-up-center 0.25s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both",
       },
       keyframes: {
         "scale-up-center": {

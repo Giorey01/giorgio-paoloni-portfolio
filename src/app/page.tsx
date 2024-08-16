@@ -9,7 +9,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center">
         <Image
           src="https://d321io5nxf2wuu.cloudfront.net/Assets/Hero_picture_mobile.webp"
-          className="rounded-lg animate-scale-up-center"
+          className="rounded-lg"
           width={310}
           height={310}
           alt="Picture of the author"

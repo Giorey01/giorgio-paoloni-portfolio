@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+img {
+  @apply animate-scale-up-center;
+}
