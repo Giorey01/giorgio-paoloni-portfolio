@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JetBrains_Mono } from "next/font/google";
 import Header from "@/app/header";
 import Footer from "@/app/footer";
@@ -31,6 +32,7 @@ export default function RootLayout({
           </div>
           <div className="mb-16">{children}</div>
           <Footer />
+          <SpeedInsights />
         </body>
       </html>
     </>
