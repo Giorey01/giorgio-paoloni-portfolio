@@ -14,7 +14,7 @@ interface PostCardProps {
 function PostCard({ post }: PostCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="w-full p-4">
-      <div className="border-l-2 border-opacity-65 rounded-r-xl border-[#2F3645] w-full h-40 flex justify-center text-balance items-center p-4 bg-[#e8e6e3]">
+      <div className="border-l-2 rounded-r-xl border-[#2F3645] w-full h-40 flex justify-center text-balance items-center p-4 bg-[#e8e6e3]">
         <div className="flex flex-col items-centerh-full">
           <h4 className="text-lg font-bold">{post.title}</h4>
           <p>{post.date}</p>
