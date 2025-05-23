@@ -65,6 +65,7 @@ export const generateStaticParams = async () => {
 
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = params;
+  const decodedSlug = decodeURIComponent(slug);
   const jsonFilePath = path.join(process.cwd(), 'src', 'data', 'image_urls.json');
   let imageData: ImageUrlsData = {}; // Use updated ImageUrlsData type
   let currentAlbumImages: ImageDetail[] = []; // Changed type to ImageDetail[]
@@ -73,17 +74,17 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
     const fileContent = await fs.readFile(jsonFilePath, 'utf-8');
     imageData = JSON.parse(fileContent) as ImageUrlsData;
   } catch (error) {
-    console.error(`Failed to read or parse image_urls.json for slug ${slug}:`, error);
+    console.error(`Failed to read or parse image_urls.json for slug ${decodedSlug}:`, error);
     return <div className="text-center text-red-500 p-10">Error loading album images. Data file may be missing.</div>;
   }
   
-  const targetFolderKey = findFolderKeyBySlug(imageData, slug);
+  const targetFolderKey = findFolderKeyBySlug(imageData, decodedSlug);
 
   if (targetFolderKey && imageData[targetFolderKey]) {
     currentAlbumImages = imageData[targetFolderKey]; // Assign the array of ImageDetail objects
-    console.log(`Found ${currentAlbumImages.length} images for slug "${slug}" in folder "${targetFolderKey}"`);
+    console.log(`Found ${currentAlbumImages.length} images for slug "${decodedSlug}" in folder "${targetFolderKey}"`);
   } else {
-    console.warn(`No images found for slug "${slug}". Looked for folder key matching the slug.`);
+    console.warn(`No images found for slug "${decodedSlug}". Looked for folder key matching the slug.`);
     return <div className="text-center text-red-500 p-10">Album not found or no images in this album.</div>;
   }
 
