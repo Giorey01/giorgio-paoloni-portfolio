@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' ./scripts/fetch-image-urls.ts && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.629.0",
+    "@aws-sdk/client-s3": "^3.816.0",
     "@vercel/speed-insights": "^1.0.12",
     "gray-matter": "^4.0.3",
     "markdown-to-jsx": "^7.4.7",
@@ -18,10 +18,11 @@
     "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.2.1"
+    "react-icons": "^5.2.1",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.17.50",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -29,6 +30,6 @@
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   }
 }
