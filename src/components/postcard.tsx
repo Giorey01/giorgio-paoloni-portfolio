@@ -16,7 +16,7 @@ function PostCard({ post }: PostCardProps) {
   return (
     // Il Link avvolge l'intera card per renderla cliccabile.
     // Ho aumentato il padding e aggiunto un max-w per un migliore controllo delle dimensioni.
-    <Link href={`/blog/${post.slug}`} className="w-full p-4 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto">
+    <Link href={`/blog/${post.slug}`} className="w-full p-6 max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-6xl mx-auto">
       {/* Contenitore principale della card:
           - Sfondo chiaro per contrastare con il testo scuro.
           - Angoli arrotondati e un bordo sottile per un aspetto più definito.
