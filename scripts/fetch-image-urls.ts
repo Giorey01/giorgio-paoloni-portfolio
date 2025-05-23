@@ -3,6 +3,18 @@
 import { S3Client, ListObjectsV2Command, _Object, ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import * as fs from 'fs';
 import * as path from 'path';
+// Removed static import: import { getPlaiceholder } from "plaiceholder";
+
+// Define the structure for individual image details
+interface ImageDetail {
+    url: string;
+    blurDataURL: string;
+}
+
+// Define the overall data structure
+interface ImageUrlsByFolderData {
+    [folderKey: string]: ImageDetail[];
+}
 
 // Environment variables
 const AWS_REGION = process.env.AWS_REGION;
@@ -10,7 +22,9 @@ const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 const BUCKET_NAME = "giorgio-paoloni-gallery-storage";
 
-// Initialize S3 Client - this might remain unused if creds are missing, which is fine.
+// Default blurDataURL in case of an error
+const DEFAULT_BLUR_DATA_URL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="; // 1x1 transparent png
+
 let s3Client: S3Client | undefined;
 if (AWS_REGION && AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY) {
     s3Client = new S3Client({
@@ -22,25 +36,30 @@ if (AWS_REGION && AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY) {
     });
 }
 
-const getImageUrlsByFolder = async (): Promise<Record<string, string[]>> => {
-    if (!s3Client) { // Should not be called if s3Client is not initialized
+const getImageUrlsByFolder = async (): Promise<ImageUrlsByFolderData> => {
+    // Dynamically import getPlaiceholder
+    const { getPlaiceholder } = await import("plaiceholder");
+
+    if (!s3Client) {
         console.warn("S3 client not initialized due to missing credentials. Returning empty image list.");
         return {};
     }
 
-    const imageUrlsByFolder: Record<string, string[]> = {};
+    const imageUrlsByFolder: ImageUrlsByFolderData = {};
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
     let continuationToken: string | undefined = undefined;
 
-    console.log(`Fetching image URLs from bucket: ${BUCKET_NAME}`);
+    console.log(`Fetching image list from bucket: ${BUCKET_NAME}`);
 
     try {
+        // Step 1: Collect all image keys by folder
+        const allImageItemsByFolder: Record<string, _Object[]> = {};
+
         do {
             const command: ListObjectsV2Command = new ListObjectsV2Command({
                 Bucket: BUCKET_NAME,
                 ContinuationToken: continuationToken,
             });
-
             const response: ListObjectsV2CommandOutput = await s3Client.send(command);
 
             if (response.Contents) {
@@ -48,55 +67,82 @@ const getImageUrlsByFolder = async (): Promise<Record<string, string[]>> => {
                     if (item.Key) {
                         const fileExtension = path.extname(item.Key.toLowerCase());
                         if (imageExtensions.includes(fileExtension)) {
-                            const imageUrl = `https://${BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${item.Key}`;
                             const lastSlashIndex = item.Key.lastIndexOf('/');
                             const folderKey = lastSlashIndex > -1 ? item.Key.substring(0, lastSlashIndex + 1) : "/";
-
-                            if (!imageUrlsByFolder[folderKey]) {
-                                imageUrlsByFolder[folderKey] = [];
+                            if (!allImageItemsByFolder[folderKey]) {
+                                allImageItemsByFolder[folderKey] = [];
                             }
-                            imageUrlsByFolder[folderKey].push(imageUrl);
-                            console.log(`Found image: ${imageUrl} in folder: ${folderKey}`);
+                            allImageItemsByFolder[folderKey].push(item);
                         }
                     }
                 }
             }
             continuationToken = response.NextContinuationToken;
         } while (continuationToken);
+        
+        console.log(`Found image items in ${Object.keys(allImageItemsByFolder).length} folders. Now processing for blurDataURLs.`);
+
+        // Step 2: Process each image for blurDataURL
+        for (const folderKey in allImageItemsByFolder) {
+            imageUrlsByFolder[folderKey] = [];
+            console.log(`Processing images in folder: ${folderKey}`);
+            for (const item of allImageItemsByFolder[folderKey]) {
+                if (!item.Key) continue;
+                const imageUrl = `https://${BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${item.Key}`;
+                let blurDataURL = DEFAULT_BLUR_DATA_URL;
+
+                try {
+                    console.log(`Fetching image for blurDataURL: ${item.Key}`);
+                    const fetchResponse = await fetch(imageUrl);
+                    if (!fetchResponse.ok) {
+                        throw new Error(`Failed to fetch image ${item.Key}: ${fetchResponse.statusText}`);
+                    }
+                    const arrayBuffer = await fetchResponse.arrayBuffer();
+                    const imageBuffer = Buffer.from(arrayBuffer);
+                    
+                    console.log(`Generating Plaiceholder for: ${item.Key}`);
+                    const { base64 } = await getPlaiceholder(imageBuffer, { size: 16 }); // Using small size for faster processing
+                    blurDataURL = base64;
+                    console.log(`Successfully generated blurDataURL for: ${item.Key}`);
+                } catch (e) {
+                    console.warn(`Error processing image ${item.Key} for blurDataURL: ${(e as Error).message}. Using default blurDataURL.`);
+                }
+                imageUrlsByFolder[folderKey].push({ url: imageUrl, blurDataURL });
+            }
+        }
 
         const folderCount = Object.keys(imageUrlsByFolder).length;
         if (folderCount > 0) {
-            console.log(`Successfully fetched image URLs, grouped into ${folderCount} folders.`);
+            console.log(`Successfully processed images, grouped into ${folderCount} folders with blurDataURLs.`);
         } else {
-            console.log("No images found matching the criteria (or S3 fetch was skipped).");
+            console.log("No images found or processed (or S3 fetch was skipped).");
         }
         return imageUrlsByFolder;
     } catch (error) {
-        console.error("Error fetching image URLs from S3:", error);
-        // Don't re-throw if it's a credential issue, allow build to proceed with empty/mock data
+        console.error("Error fetching image URLs from S3 or processing images:", error);
         if ((error as Error).name === 'CredentialsProviderError' || (error as Error).message.includes('credentials')) {
             console.warn("Skipping S3 fetch due to credential error. Proceeding with empty image list.");
             return {};
         }
-        throw error; // Re-throw for other errors
+        // For other errors, return empty to allow build to potentially continue with no image data
+        return {};
     }
 };
 
-const saveImageUrlsToFile = (urlsByFolder: Record<string, string[]>): void => {
+const saveImageUrlsToFile = (data: ImageUrlsByFolderData): void => {
     const dataDir = path.join(__dirname, '..', 'src', 'data');
     const filePath = path.join(dataDir, 'image_urls.json');
 
-    console.log(`Attempting to save image URLs to: ${filePath}`);
-
+    console.log(`Attempting to save image data to: ${filePath}`);
     try {
         if (!fs.existsSync(dataDir)) {
             fs.mkdirSync(dataDir, { recursive: true });
             console.log(`Created directory: ${dataDir}`);
         }
-        fs.writeFileSync(filePath, JSON.stringify(urlsByFolder, null, 2));
-        console.log(`Successfully saved image URLs to ${filePath}`);
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+        console.log(`Successfully saved image data to ${filePath}`);
     } catch (error) {
-        console.error(`Error saving image URLs to file at ${filePath}:`, error);
+        console.error(`Error saving image data to file at ${filePath}:`, error);
         process.exit(1); 
     }
 };
@@ -104,29 +150,23 @@ const saveImageUrlsToFile = (urlsByFolder: Record<string, string[]>): void => {
 const main = async () => {
     if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
         console.warn("Warning: AWS region and/or credentials not provided. Skipping S3 fetch and creating an empty image_urls.json.");
-        saveImageUrlsToFile({}); // Save an empty object
-        // process.exit(0); // Allow the build to continue - NO, the script should always exit naturally for `&& next build`
-        return; // Exit main function, script will terminate successfully
+        saveImageUrlsToFile({});
+        return; 
     }
 
-    // Credentials are provided, proceed with S3 fetch
-    if (!s3Client) { // Should theoretically be initialized if creds are present, but as a safeguard:
+    if (!s3Client) {
         console.error("Error: S3 client failed to initialize despite credentials being set. Creating empty image_urls.json");
         saveImageUrlsToFile({});
         return;
     }
 
     try {
-        const urlsByFolder = await getImageUrlsByFolder();
-        // Check if urlsByFolder has any content, even if empty, saveImageUrlsToFile should run
-        saveImageUrlsToFile(urlsByFolder);
-    } catch (error) {
-        console.error("Failed to complete the script due to an error during S3 operations:", error);
-        // In case of error during getImageUrlsByFolder (other than creds), save empty and exit to allow build
-        console.warn("Creating an empty image_urls.json due to error during S3 fetch.");
+        const urlsByFolderWithBlur = await getImageUrlsByFolder();
+        saveImageUrlsToFile(urlsByFolderWithBlur);
+    } catch (error) { // This catch is mainly for unexpected errors not handled within getImageUrlsByFolder
+        console.error("Failed to complete the script due to an unexpected error:", error);
+        console.warn("Creating an empty image_urls.json due to the error.");
         saveImageUrlsToFile({});
-        // process.exit(1); // Indicate failure if we intended to get data but couldn't for other reasons
-                           // For CI, might be better to let build continue with empty JSON.
     }
 };
 
