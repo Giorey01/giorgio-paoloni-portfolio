@@ -1,5 +1,5 @@
 import React from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import dynamic from "next/dynamic";
 import PortfolioCard from "@/components/portfoliocard";
 import fs from 'fs/promises';
 import path from 'path';
@@ -12,6 +12,16 @@ interface ImageDetail {
 interface ImageUrlsData {
   [folderKey: string]: ImageDetail[];
 }
+
+const DynamicResponsiveMasonry = dynamic(
+  () => import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry),
+  { ssr: false }
+);
+
+const DynamicMasonry = dynamic(
+  () => import("react-responsive-masonry").then((mod) => mod.Masonry),
+  { ssr: false }
+);
 
 const PortfolioPage = async () => {
   let imageData: ImageUrlsData = {};
@@ -53,11 +63,11 @@ const PortfolioPage = async () => {
       <h1 className="text-3xl text-center font-bold p-10 lg:p-16">
         Dive into my world
       </h1>
-      <ResponsiveMasonry
+      <DynamicResponsiveMasonry
         className="p-4 md:p-8 lg:p-14"
         columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
       >
-        <Masonry gutter="1rem">
+        <DynamicMasonry gutter="1rem">
           {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
             // The filter above ensures coverImageUrl is defined
             if (!coverImageUrl) { // This check is now redundant due to the filter but kept for safety
@@ -65,16 +75,16 @@ const PortfolioPage = async () => {
               return null;
             }
             return (
-              <PortfolioCard 
+              <PortfolioCard
                 key={folderKey || index} // Use folderKey as key if available and unique
-                folderKey={folderKey} 
+                folderKey={folderKey}
                 coverImageUrl={coverImageUrl}
                 blurDataURL={blurDataURL || ""} // Pass blurDataURL, ensure fallback
               />
             );
           })}
-        </Masonry>
-      </ResponsiveMasonry>
+        </DynamicMasonry>
+      </DynamicResponsiveMasonry>
     </div>
   );
 };
