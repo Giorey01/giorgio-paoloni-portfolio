@@ -14,13 +14,13 @@ interface ImageUrlsData {
 }
 
 const DynamicResponsiveMasonry = dynamic(
-  () => import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry),
-  { ssr: false }
+  () => import('react-responsive-masonry'), 
+  { ssr: false, loading: () => <p>Loading...</p> }
 );
 
 const DynamicMasonry = dynamic(
-  () => import("react-responsive-masonry").then((mod) => mod.Masonry),
-  { ssr: false }
+  () => import('react-responsive-masonry').then(mod => mod.Masonry), 
+  { ssr: false, loading: () => <p>Loading...</p> }
 );
 
 const PortfolioPage = async () => {
