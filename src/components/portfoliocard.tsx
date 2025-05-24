@@ -26,13 +26,11 @@ const PortfolioCard = ({ folderKey, coverImageUrl, blurDataURL }: PortfolioCardP
         <Image
           src={coverImageUrl}
           alt={altText}
-          width={400}
-          height={400}
           placeholder="blur" // Ensure placeholder is still "blur"
-          className="rounded-t-lg object-cover aspect-square hover:opacity-100 opacity-75 transition-all duration-300"
+          className="rounded-t-lg hover:opacity-100 opacity-75 transition-all duration-300 group-hover:scale-105 ease-in-out"
           blurDataURL={blurDataURL} // Use the passed blurDataURL prop
         />
-        <div className="absolute bottom-0 w-full h-24 bg-[#e8e6e3] flex justify-center items-center">
+        <div className="absolute bottom-0 w-full h-auto bg-gradient-to-t from-black/80 to-transparent p-4 flex justify-center items-center">
           <h2 className="text-2xl md:text-3xl font-bold z-10">
             {altText}
           </h2>

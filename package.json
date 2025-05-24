@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.816.0",
+    "@types/react-responsive-masonry": "^2.6.0",
     "@vercel/speed-insights": "^1.0.12",
     "gray-matter": "^4.0.3",
     "markdown-to-jsx": "^7.4.7",
@@ -19,6 +20,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "react-responsive-masonry": "^2.7.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

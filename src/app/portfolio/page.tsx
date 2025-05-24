@@ -1,4 +1,5 @@
 import React from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import PortfolioCard from "@/components/portfoliocard";
 import fs from 'fs/promises';
 import path from 'path';
@@ -52,23 +53,28 @@ const PortfolioPage = async () => {
       <h1 className="text-3xl text-center font-bold p-10 lg:p-16">
         Dive into my world
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center p-4 md:p-8 lg:p-14">
-        {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
-          // The filter above ensures coverImageUrl is defined
-          if (!coverImageUrl) { // This check is now redundant due to the filter but kept for safety
-            console.warn(`Skipping folder ${folderKey} due to missing cover image URL.`);
-            return null;
-          }
-          return (
-            <PortfolioCard 
-              key={folderKey || index} // Use folderKey as key if available and unique
-              folderKey={folderKey} 
-              coverImageUrl={coverImageUrl}
-              blurDataURL={blurDataURL || ""} // Pass blurDataURL, ensure fallback
-            />
-          );
-        })}
-      </div>
+      <ResponsiveMasonry
+        className="p-4 md:p-8 lg:p-14"
+        columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+      >
+        <Masonry gutter="1rem">
+          {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
+            // The filter above ensures coverImageUrl is defined
+            if (!coverImageUrl) { // This check is now redundant due to the filter but kept for safety
+              console.warn(`Skipping folder ${folderKey} due to missing cover image URL.`);
+              return null;
+            }
+            return (
+              <PortfolioCard 
+                key={folderKey || index} // Use folderKey as key if available and unique
+                folderKey={folderKey} 
+                coverImageUrl={coverImageUrl}
+                blurDataURL={blurDataURL || ""} // Pass blurDataURL, ensure fallback
+              />
+            );
+          })}
+        </Masonry>
+      </ResponsiveMasonry>
     </div>
   );
 };
