@@ -1,8 +1,8 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import PortfolioCard from "@/components/portfoliocard";
 import fs from 'fs/promises';
 import path from 'path';
+import MasonryWrapper from '@/components/MasonryWrapper';
 
 interface ImageDetail {
   url: string;
@@ -12,16 +12,6 @@ interface ImageDetail {
 interface ImageUrlsData {
   [folderKey: string]: ImageDetail[];
 }
-
-const DynamicResponsiveMasonry = dynamic(
-  () => import('react-responsive-masonry'), 
-  { ssr: false, loading: () => <p>Loading...</p> }
-);
-
-const DynamicMasonry = dynamic(
-  () => import('react-responsive-masonry').then(mod => mod.Masonry), 
-  { ssr: false, loading: () => <p>Loading...</p> }
-);
 
 const PortfolioPage = async () => {
   let imageData: ImageUrlsData = {};
@@ -58,16 +48,23 @@ const PortfolioPage = async () => {
     })
     .filter(item => item.coverImageUrl !== undefined); // Ensure only items with a cover image proceed
 
+  const breakpointColumnsObj = {
+    default: 3,
+    900: 2,
+    750: 1
+  };
+
   return (
     <div>
       <h1 className="text-3xl text-center font-bold p-10 lg:p-16">
         Dive into my world
       </h1>
-      <DynamicResponsiveMasonry
-        className="p-4 md:p-8 lg:p-14"
-        columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-      >
-        <DynamicMasonry gutter="1rem">
+      <div className="p-4 md:p-8 lg:p-14">
+        <MasonryWrapper
+          breakpointCols={breakpointColumnsObj}
+          className="flex w-auto gap-4"
+          columnClassName="bg-clip-padding flex flex-col gap-4"
+        >
           {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
             // The filter above ensures coverImageUrl is defined
             if (!coverImageUrl) { // This check is now redundant due to the filter but kept for safety
@@ -75,16 +72,17 @@ const PortfolioPage = async () => {
               return null;
             }
             return (
-              <PortfolioCard
-                key={folderKey || index} // Use folderKey as key if available and unique
-                folderKey={folderKey}
-                coverImageUrl={coverImageUrl}
-                blurDataURL={blurDataURL || ""} // Pass blurDataURL, ensure fallback
-              />
+              <div key={folderKey || index}>
+                <PortfolioCard
+                  folderKey={folderKey}
+                  coverImageUrl={coverImageUrl}
+                  blurDataURL={blurDataURL || ""} // Pass blurDataURL, ensure fallback
+                />
+              </div>
             );
           })}
-        </DynamicMasonry>
-      </DynamicResponsiveMasonry>
+        </MasonryWrapper>
+      </div>
     </div>
   );
 };
