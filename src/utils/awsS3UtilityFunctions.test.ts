@@ -14,7 +14,7 @@ mock.module("@aws-sdk/client-s3", () => {
 });
 
 // Re-import to ensure it uses the mock
-import { getFirstImageFromFolder } from "./awsS3UtilityFunctions";
+import { getFirstImageFromFolder, getFoldersInFolder } from "./awsS3UtilityFunctions";
 
 describe("getFirstImageFromFolder", () => {
   beforeEach(() => {
@@ -49,6 +49,31 @@ describe("getFirstImageFromFolder", () => {
 
     try {
       await expect(getFirstImageFromFolder("folder/")).rejects.toThrow("S3 error");
+      expect(consoleSpy).toHaveBeenCalledWith("Error fetching objects:", error);
+    } finally {
+      consoleSpy.mockRestore();
+    }
+  });
+});
+
+describe("getFoldersInFolder", () => {
+  beforeEach(() => {
+    mockSend.mockClear();
+    mockSend.mockImplementation(async () => {
+       return { Contents: [] };
+    });
+  });
+
+  test("should throw and log error when S3 client fails", async () => {
+    const error = new Error("S3 error in getFoldersInFolder");
+    mockSend.mockImplementation(async () => {
+      throw error;
+    });
+
+    const consoleSpy = spyOn(console, "error").mockImplementation(() => {});
+
+    try {
+      await expect(getFoldersInFolder("folder/")).rejects.toThrow("S3 error in getFoldersInFolder");
       expect(consoleSpy).toHaveBeenCalledWith("Error fetching objects:", error);
     } finally {
       consoleSpy.mockRestore();
