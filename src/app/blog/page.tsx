@@ -2,8 +2,8 @@ import React from "react";
 import getPostMetadata from "@/utils/getPostMetadata";
 import PostCard from "../../components/postcard";
 
-function Blog() {
-  const postMetadata = getPostMetadata("posts");
+async function Blog() {
+  const postMetadata = await getPostMetadata("posts");
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

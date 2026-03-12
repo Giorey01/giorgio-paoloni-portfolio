@@ -7,13 +7,20 @@ import { unstable_cache } from "next/cache";
 
 const BUCKET_NAME = "giorgio-paoloni-gallery-storage";
 
-const client = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+let client: S3Client;
+
+export const getClient = () => {
+  if (!client) {
+    client = new S3Client({
+      region: process.env.AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    });
+  }
+  return client;
+};
 
 // Funzione per ottenere tutti gli oggetti in una cartella specifica
 export const getFoldersInFolder = unstable_cache(
@@ -25,22 +32,16 @@ export const getFoldersInFolder = unstable_cache(
 
     const command = new ListObjectsV2Command(params);
 
-    try {
-      const response = await client.send(command);
-      return response.Contents?.filter(
-        (content) =>
-          content.Key?.split("/").length === prefix.split("/").length + 1 &&
-          content.Size === 0
-      );
-    } catch (error) {
-      console.error("Error fetching objects:", error);
-      throw error;
-    }
-  },
-  ["s3-folders"],
-  {
-    revalidate: 3600, // Cache for 1 hour by default or adjust as needed
-    tags: ["s3-folders"],
+  try {
+    const response = await getClient().send(command);
+    return response.Contents?.filter(
+      (content) =>
+        content.Key?.split("/").length === prefix.split("/").length + 1 &&
+        content.Size === 0
+    );
+  } catch (error) {
+    console.error("Error fetching objects:", error);
+    throw error;
   }
 );
 
@@ -53,18 +54,12 @@ export const getFirstImageFromFolder = unstable_cache(
     };
     const command = new ListObjectsV2Command(params);
 
-    try {
-      const response = await client.send(command);
-      return response.Contents?.find((content) => content.Size !== 0);
-    } catch (error) {
-      console.error("Error fetching objects:", error);
-      throw error;
-    }
-  },
-  ["s3-first-image"],
-  {
-    revalidate: 3600,
-    tags: ["s3-images"],
+  try {
+    const response = await getClient().send(command);
+    return response.Contents?.find((content) => content.Size !== 0);
+  } catch (error) {
+    console.error("Error fetching objects:", error);
+    throw error;
   }
 );
 
@@ -75,22 +70,16 @@ export const getImagesFromFolder = unstable_cache(
       Prefix: prefix,
     };
 
-    const command = new ListObjectsV2Command(params);
-    try {
-      const response = await client.send(command);
-      return response.Contents?.filter(
-        (content) =>
-          content.Key?.split("/").length === prefix.split("/").length + 1 &&
-          content.Size != 0
-      );
-    } catch (error) {
-      console.error("Error fetching objects:", error);
-      throw error;
-    }
-  },
-  ["s3-images"],
-  {
-    revalidate: 3600,
-    tags: ["s3-images"],
+  const command = new ListObjectsV2Command(params);
+  try {
+    const response = await getClient().send(command);
+    return response.Contents?.filter(
+      (content) =>
+        content.Key?.split("/").length === prefix.split("/").length + 1 &&
+        content.Size != 0
+    );
+  } catch (error) {
+    console.error("Error fetching objects:", error);
+    throw error;
   }
 );
