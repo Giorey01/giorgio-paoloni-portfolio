@@ -44,7 +44,7 @@ export const getFoldersInFolder = unstable_cache(
       throw error;
     }
   }
-});
+);
 
 export const getFirstImageFromFolder = unstable_cache(
   async (prefix: string) => {
@@ -63,7 +63,7 @@ export const getFirstImageFromFolder = unstable_cache(
       throw error;
     }
   }
-});
+);
 
 export const getImagesFromFolder = unstable_cache(
   async (prefix: string) => {
@@ -85,4 +85,4 @@ export const getImagesFromFolder = unstable_cache(
       throw error;
     }
   }
-});
+);
