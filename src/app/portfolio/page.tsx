@@ -1,4 +1,3 @@
-import React from "react";
 import PortfolioCard from "@/components/portfoliocard";
 import fs from 'fs/promises';
 import path from 'path';
