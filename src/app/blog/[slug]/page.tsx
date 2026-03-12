@@ -2,6 +2,7 @@ import React from "react";
 import Markdown from "markdown-to-jsx";
 import getPostMetadata from "@/utils/getPostMetadata";
 import fs from "fs";
+import path from "path";
 import matter from "gray-matter";
 import getTitleAndDescMetadata from "@/utils/getTitleAndDescMetadata";
 import "./markdownpage.css";
@@ -18,9 +19,20 @@ interface PostMetadata {
 
 // Funzione per ottenere il contenuto del post usando lo slug
 function getPostContent(slug: string) {
-  const folder = "posts/";
-  const file = folder + `${slug}.md`;
-  const content = fs.readFileSync(file, "utf-8");
+  // Sanitize the slug: only allow alphanumeric characters, hyphens, and underscores
+  if (!/^[a-zA-Z0-9-_]+$/.test(slug)) {
+    throw new Error("Invalid slug: restricted characters detected.");
+  }
+
+  const postsDirectory = path.resolve(process.cwd(), "posts");
+  const filePath = path.resolve(postsDirectory, `${slug}.md`);
+
+  // Double check that the resolved path is within the posts directory
+  if (!filePath.startsWith(postsDirectory + path.sep)) {
+    throw new Error("Invalid slug: path traversal detected.");
+  }
+
+  const content = fs.readFileSync(filePath, "utf-8");
 
   const matterResult = matter(content);
   return matterResult;
