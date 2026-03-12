@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { FaArrowDownLong } from "react-icons/fa6";
 
 function About() {
   const [email, setEmail] = useState("");
