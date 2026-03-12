@@ -28,7 +28,7 @@ function getPostContent(slug: string) {
 
 // Genera i parametri statici per il pre-rendering delle pagine
 export const generateStaticParams = async () => {
-  const posts: PostMetadata[] = getPostMetadata("posts");
+  const posts: PostMetadata[] = await getPostMetadata("posts");
   return posts.map((post) => ({ slug: post.slug }));
 };
 
