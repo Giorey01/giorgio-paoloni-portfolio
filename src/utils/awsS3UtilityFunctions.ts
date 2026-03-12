@@ -3,6 +3,7 @@ import {
   ListObjectsV2CommandInput,
   ListObjectsV2Command,
 } from "@aws-sdk/client-s3";
+import { unstable_cache } from "next/cache";
 
 const BUCKET_NAME = "giorgio-paoloni-gallery-storage";
 
@@ -22,13 +23,14 @@ export const getClient = () => {
 };
 
 // Funzione per ottenere tutti gli oggetti in una cartella specifica
-export const getFoldersInFolder = async (prefix: string) => {
-  const params: ListObjectsV2CommandInput = {
-    Bucket: BUCKET_NAME,
-    Prefix: prefix,
-  };
+export const getFoldersInFolder = unstable_cache(
+  async (prefix: string) => {
+    const params: ListObjectsV2CommandInput = {
+      Bucket: BUCKET_NAME,
+      Prefix: prefix,
+    };
 
-  const command = new ListObjectsV2Command(params);
+    const command = new ListObjectsV2Command(params);
 
   try {
     const response = await getClient().send(command);
@@ -41,15 +43,16 @@ export const getFoldersInFolder = async (prefix: string) => {
     console.error("Error fetching objects:", error);
     throw error;
   }
-};
+);
 
-export const getFirstImageFromFolder = async (prefix: string) => {
-  const params: ListObjectsV2CommandInput = {
-    Bucket: BUCKET_NAME,
-    Prefix: prefix,
-    MaxKeys: 2,
-  };
-  const command = new ListObjectsV2Command(params);
+export const getFirstImageFromFolder = unstable_cache(
+  async (prefix: string) => {
+    const params: ListObjectsV2CommandInput = {
+      Bucket: BUCKET_NAME,
+      Prefix: prefix,
+      MaxKeys: 2,
+    };
+    const command = new ListObjectsV2Command(params);
 
   try {
     const response = await getClient().send(command);
@@ -58,13 +61,14 @@ export const getFirstImageFromFolder = async (prefix: string) => {
     console.error("Error fetching objects:", error);
     throw error;
   }
-};
+);
 
-export const getImagesFromFolder = async (prefix: string) => {
-  const params: ListObjectsV2CommandInput = {
-    Bucket: BUCKET_NAME,
-    Prefix: prefix,
-  };
+export const getImagesFromFolder = unstable_cache(
+  async (prefix: string) => {
+    const params: ListObjectsV2CommandInput = {
+      Bucket: BUCKET_NAME,
+      Prefix: prefix,
+    };
 
   const command = new ListObjectsV2Command(params);
   try {
@@ -78,4 +82,4 @@ export const getImagesFromFolder = async (prefix: string) => {
     console.error("Error fetching objects:", error);
     throw error;
   }
-};
+);
