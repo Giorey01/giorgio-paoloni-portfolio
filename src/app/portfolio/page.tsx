@@ -13,13 +13,13 @@ interface ImageUrlsData {
   [folderKey: string]: ImageDetail[];
 }
 
-const DynamicResponsiveMasonry = dynamic(
-  () => import('react-responsive-masonry'), 
+const DynamicResponsiveMasonry: any = dynamic(
+  () => import('react-responsive-masonry').then((mod) => mod.ResponsiveMasonry as any),
   { ssr: false, loading: () => <p>Loading...</p> }
 );
 
-const DynamicMasonry = dynamic(
-  () => import('react-responsive-masonry').then(mod => mod.Masonry), 
+const DynamicMasonry: any = dynamic(
+  () => import('react-responsive-masonry').then((mod) => mod.default as any),
   { ssr: false, loading: () => <p>Loading...</p> }
 );
 
