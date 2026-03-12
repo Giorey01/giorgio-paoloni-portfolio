@@ -54,67 +54,90 @@ function About() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 min-h-full">
-      <Image
-        src={
-          "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
-        }
-        width={500}
-        height={500}
-        alt="ciao"
-      />
-      <h1 className="text-center text-6xl font-extrabold">HELLO!</h1>
-      <p className="text-center px-10 tracking-wide">
-        Hi, my name is Giorgio Paoloni. <br />
-        In my free time I like to document the places I visit through
-        photography. Every shot is a way to share the experiences and beauties I
-        encounter along my path.
-      </p>
-      <h1 className="text-4xl font-semibold mt-8">Contact me</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5 justify-start w-full px-10"
-      >
-        <h4 className="text-xl">Your email</h4>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="email"
-          className="border-2 rounded-md p-1 focus:outline-none focus:border-black transition-colors duration-300"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={status === "loading"}
-        />
-        <h4 className="text-xl">Message</h4>
-        <textarea
-          name="message"
-          id="message"
-          placeholder="message"
-          className="border-2 rounded-md p-1 h-28 focus:outline-none focus:border-black transition-colors duration-300 resize-none"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={status === "loading"}
-        />
-        <div className="text-center">
-          <button
-            type="submit"
-            className="bg-black w-28 text-white rounded-md font-semibold p-3 disabled:opacity-50"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Sending..." : "Send"}
-          </button>
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-24 min-h-full max-w-6xl mx-auto px-6 py-12">
+      {/* Left side: Photo and Bio */}
+      <div className="flex flex-col items-center md:items-start max-w-md w-full">
+        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8 border border-neutral-300 p-2 bg-white shadow-sm">
+          <Image
+            src={
+              "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
+            }
+            fill
+            className="object-cover grayscale"
+            alt="Giorgio Paoloni"
+          />
         </div>
-        {feedbackMessage && (
-          <div
-            className={`mt-4 text-center p-2 rounded-md ${
-              status === "success" ? "bg-green-100 text-green-700" : ""
-            } ${status === "error" ? "bg-red-100 text-red-700" : ""}`}
-          >
-            {feedbackMessage}
+        <h1 className="text-4xl md:text-5xl font-light tracking-widest uppercase mb-6 text-neutral-800">
+          Giorgio Paoloni
+        </h1>
+        <div className="space-y-4 text-neutral-600 leading-relaxed text-sm md:text-base text-center md:text-left">
+          <p>
+            In my free time I like to document the places I visit through photography.
+          </p>
+          <p>
+            Every shot is a way to share the experiences and beauties I encounter along my path, blending digital precision with an analog soul.
+          </p>
+        </div>
+      </div>
+
+      {/* Right side: Contact Form */}
+      <div className="flex flex-col w-full max-w-md mt-10 md:mt-0">
+        <h2 className="text-2xl font-light tracking-widest uppercase mb-10 text-neutral-800 border-b border-neutral-300 pb-4">
+          Contact
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-8 w-full"
+        >
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-xs uppercase tracking-widest text-neutral-500">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="your@email.com"
+              className="border-b border-neutral-400 bg-transparent py-2 px-0 focus:outline-none focus:border-neutral-800 transition-colors duration-300 rounded-none placeholder-neutral-300"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "loading"}
+            />
           </div>
-        )}
-      </form>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="message" className="text-xs uppercase tracking-widest text-neutral-500">
+              Message
+            </label>
+            <textarea
+              name="message"
+              id="message"
+              placeholder="Tell me about your project or say hi..."
+              className="border-b border-neutral-400 bg-transparent py-2 px-0 h-28 focus:outline-none focus:border-neutral-800 transition-colors duration-300 resize-none rounded-none placeholder-neutral-300"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              disabled={status === "loading"}
+            />
+          </div>
+          <div className="mt-4">
+            <button
+              type="submit"
+              className="w-full bg-neutral-800 text-neutral-100 uppercase tracking-widest text-sm py-4 hover:bg-black transition-colors disabled:opacity-50"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Sending..." : "Send Message"}
+            </button>
+          </div>
+          {feedbackMessage && (
+            <div
+              className={`mt-4 text-center p-3 text-sm tracking-wide ${
+                status === "success" ? "text-neutral-600 border border-neutral-300" : ""
+              } ${status === "error" ? "text-red-600 border border-red-200" : ""}`}
+            >
+              {feedbackMessage}
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
