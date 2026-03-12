@@ -59,8 +59,6 @@ export const generateStaticParams = async () => {
     }
     return acc;
   }, []);
-  
-  console.log("Generated slugs for static params:", slugs.map(s => s.slug));
 
   return slugs;
 };
@@ -84,7 +82,6 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
 
   if (targetFolderKey && imageData[targetFolderKey]) {
     currentAlbumImages = imageData[targetFolderKey]; // Assign the array of ImageDetail objects
-    console.log(`Found ${currentAlbumImages.length} images for slug "${decodedSlug}" in folder "${targetFolderKey}"`);
   } else {
     console.warn(`No images found for slug "${decodedSlug}". Looked for folder key matching the slug.`);
     return <div className="text-center text-red-500 p-10">Album not found or no images in this album.</div>;
