@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import Header from "@/app/header";
 import Footer from "@/app/footer";
 import "./globals.css";
 
-const jetBrainsMono = JetBrains_Mono({
-  weight: "400", // Puoi specificare il peso (400 per Regular)
-  subsets: ["latin"], // Puoi specificare i subset necessari
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "700"],
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
@@ -24,9 +31,9 @@ export default function RootLayout({
     <>
       <html
         lang="en"
-        className="relative min-h-screen bg-[#EEEDEB] text-[#2F3645]"
+        className={`relative min-h-screen bg-gallery-white text-gallery-dark font-sans antialiased ${inter.variable} ${playfairDisplay.variable}`}
       >
-        <body className={jetBrainsMono.className}>
+        <body className={inter.className}>
           <div className="w-full flex justify-center">
             <Header />
           </div>

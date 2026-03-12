@@ -9,6 +9,15 @@ const config: Config = {
 
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+        serif: ['var(--font-playfair)'],
+      },
+      colors: {
+        'gallery-white': '#fdfdfd',
+        'gallery-gray': '#f2f2f2',
+        'gallery-dark': '#1a1a1a',
+      },
       animation: {
         "scale-up-center":
           "scale-up-center 0.25s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both",

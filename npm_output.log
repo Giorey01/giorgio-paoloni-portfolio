@@ -1,0 +1,12 @@
+
+> giorgio-paoloni-portfolio@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.9s (595 modules)
+ GET / 200 in 8487ms
