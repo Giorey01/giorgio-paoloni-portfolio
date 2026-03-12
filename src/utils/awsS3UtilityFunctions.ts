@@ -6,13 +6,20 @@ import {
 
 const BUCKET_NAME = "giorgio-paoloni-gallery-storage";
 
-const client = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+let client: S3Client;
+
+export const getClient = () => {
+  if (!client) {
+    client = new S3Client({
+      region: process.env.AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    });
+  }
+  return client;
+};
 
 // Funzione per ottenere tutti gli oggetti in una cartella specifica
 export const getFoldersInFolder = async (prefix: string) => {
@@ -24,7 +31,7 @@ export const getFoldersInFolder = async (prefix: string) => {
   const command = new ListObjectsV2Command(params);
 
   try {
-    const response = await client.send(command);
+    const response = await getClient().send(command);
     return response.Contents?.filter(
       (content) =>
         content.Key?.split("/").length === prefix.split("/").length + 1 &&
@@ -45,7 +52,7 @@ export const getFirstImageFromFolder = async (prefix: string) => {
   const command = new ListObjectsV2Command(params);
 
   try {
-    const response = await client.send(command);
+    const response = await getClient().send(command);
     return response.Contents?.find((content) => content.Size !== 0);
   } catch (error) {
     console.error("Error fetching objects:", error);
@@ -61,7 +68,7 @@ export const getImagesFromFolder = async (prefix: string) => {
 
   const command = new ListObjectsV2Command(params);
   try {
-    const response = await client.send(command);
+    const response = await getClient().send(command);
     return response.Contents?.filter(
       (content) =>
         content.Key?.split("/").length === prefix.split("/").length + 1 &&
