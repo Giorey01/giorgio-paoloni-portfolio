@@ -52,15 +52,17 @@ export const generateStaticParams = async () => {
     return []; // Return empty array if data can't be read
   }
 
-  const slugs = Object.keys(imageData)
-    .map(folderKey => getSlugFromFolderKey(folderKey))
-    .filter((slug): slug is string => slug !== null);
+  const slugs = Object.keys(imageData).reduce((acc: { slug: string }[], folderKey) => {
+    const slug = getSlugFromFolderKey(folderKey);
+    if (slug !== null) {
+      acc.push({ slug });
+    }
+    return acc;
+  }, []);
   
-  console.log("Generated slugs for static params:", slugs);
+  console.log("Generated slugs for static params:", slugs.map(s => s.slug));
 
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  return slugs;
 };
 
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
