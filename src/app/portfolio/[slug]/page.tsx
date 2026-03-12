@@ -52,15 +52,15 @@ export const generateStaticParams = async () => {
     return []; // Return empty array if data can't be read
   }
 
-  const slugs = Object.keys(imageData)
-    .map(folderKey => getSlugFromFolderKey(folderKey))
-    .filter((slug): slug is string => slug !== null);
-  
-  console.log("Generated slugs for static params:", slugs);
+  const slugs = Object.keys(imageData).reduce((acc: { slug: string }[], folderKey) => {
+    const slug = getSlugFromFolderKey(folderKey);
+    if (slug !== null) {
+      acc.push({ slug });
+    }
+    return acc;
+  }, []);
 
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  return slugs;
 };
 
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
@@ -82,7 +82,6 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
 
   if (targetFolderKey && imageData[targetFolderKey]) {
     currentAlbumImages = imageData[targetFolderKey]; // Assign the array of ImageDetail objects
-    console.log(`Found ${currentAlbumImages.length} images for slug "${decodedSlug}" in folder "${targetFolderKey}"`);
   } else {
     console.warn(`No images found for slug "${decodedSlug}". Looked for folder key matching the slug.`);
     return <div className="text-center text-red-500 p-10">Album not found or no images in this album.</div>;

@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { FaArrowDownLong } from "react-icons/fa6";
+import { isValidEmail } from "@/utils/validation";
 
 function About() {
   const [email, setEmail] = useState("");
@@ -19,8 +21,7 @@ function About() {
       setStatus("error");
       return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
         setFeedbackMessage("Invalid email format.");
         setStatus("error");
         return;

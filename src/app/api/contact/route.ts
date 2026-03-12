@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { isValidEmail } from '@/utils/validation';
 
 export async function POST(request: Request) {
   try {
@@ -10,8 +11,7 @@ export async function POST(request: Request) {
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required and must be a string.' }, { status: 400 });
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json({ error: 'Invalid email format.' }, { status: 400 });
     }
     if (!message || typeof message !== 'string') {
