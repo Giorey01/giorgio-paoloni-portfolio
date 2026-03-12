@@ -14,9 +14,9 @@ mock.module("@aws-sdk/client-s3", () => {
 });
 
 // Re-import to ensure it uses the mock
-import { getFirstImageFromFolder, getFoldersInFolder } from "./awsS3UtilityFunctions";
+import { getFirstImageFromFolder, getImagesFromFolder } from "./awsS3UtilityFunctions";
 
-describe("getFoldersInFolder", () => {
+describe("getImagesFromFolder", () => {
   beforeEach(() => {
     mockSend.mockClear();
     mockSend.mockImplementation(async () => {
@@ -24,48 +24,33 @@ describe("getFoldersInFolder", () => {
     });
   });
 
-  test("should filter objects to return only folders (Size === 0 and correct depth)", async () => {
+  test("should filter and return only direct child objects with non-zero size", async () => {
     mockSend.mockImplementation(async () => {
       return {
         Contents: [
-          { Key: "root/folder1/", Size: 0 }, // Depth is 3 (root/folder1/ ""), prefix "root/" depth is 2 (root/ "")
-          { Key: "root/folder1/image.jpg", Size: 1024 }, // Size not 0
-          { Key: "root/folder1/subfolder/", Size: 0 }, // Depth is 4, prefix "root/" depth is 2, incorrect depth
-          { Key: "root/folder2/", Size: 0 }, // Depth is 3
+          { Key: "folder/", Size: 0 },
+          { Key: "folder/subfolder", Size: 0 },
+          { Key: "folder/image1.jpg", Size: 1024 },
+          { Key: "folder/image2.png", Size: 2048 },
+          { Key: "folder/subfolder/image3.jpg", Size: 4096 },
         ]
       };
     });
 
-    const result = await getFoldersInFolder("root/");
-    expect(result).toHaveLength(2);
-    expect(result?.[0].Key).toBe("root/folder1/");
-    expect(result?.[1].Key).toBe("root/folder2/");
+    // For prefix "folder", length is 1
+    // prefix "folder".split("/") -> ["folder"] (length 1)
+    // content "folder/image1.jpg".split("/") -> ["folder", "image1.jpg"] (length 2)
+    // 2 === 1 + 1 (true)
+    const result = await getImagesFromFolder("folder");
+
+    expect(result).toBeDefined();
+    expect(result?.length).toBe(2);
+    expect(result?.[0].Key).toBe("folder/image1.jpg");
+    expect(result?.[1].Key).toBe("folder/image2.png");
     expect(mockSend).toHaveBeenCalledTimes(1);
   });
 
-  test("should handle an empty response or no matching folders", async () => {
-    mockSend.mockImplementation(async () => {
-      return {
-        Contents: undefined // Test no Contents array
-      };
-    });
-
-    let result = await getFoldersInFolder("root/");
-    expect(result).toBeUndefined();
-
-    mockSend.mockImplementation(async () => {
-      return {
-        Contents: [
-          { Key: "root/folder1/image.jpg", Size: 1024 }
-        ]
-      };
-    });
-
-    result = await getFoldersInFolder("root/");
-    expect(result).toEqual([]);
-  });
-
-  test("should log and throw errors when the S3 client fails", async () => {
+  test("should throw and log error when S3 client fails", async () => {
     const error = new Error("S3 error");
     mockSend.mockImplementation(async () => {
       throw error;
@@ -74,7 +59,7 @@ describe("getFoldersInFolder", () => {
     const consoleSpy = spyOn(console, "error").mockImplementation(() => {});
 
     try {
-      await expect(getFoldersInFolder("root/")).rejects.toThrow("S3 error");
+      await expect(getImagesFromFolder("folder/")).rejects.toThrow("S3 error");
       expect(consoleSpy).toHaveBeenCalledWith("Error fetching objects:", error);
     } finally {
       consoleSpy.mockRestore();
