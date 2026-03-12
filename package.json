@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' ./scripts/fetch-image-urls.ts && next build",
+    "build": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" ./scripts/fetch-image-urls.ts && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -23,6 +23,7 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.10",
     "@types/node": "^20.17.50",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",

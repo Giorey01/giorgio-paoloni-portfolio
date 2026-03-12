@@ -21,7 +21,7 @@ mock.module("@aws-sdk/client-s3", () => {
 });
 
 // Re-import to ensure it uses the mock
-import { getFirstImageFromFolder, getImagesFromFolder } from "./awsS3UtilityFunctions";
+import { getFoldersInFolder, getFirstImageFromFolder, getImagesFromFolder } from "./awsS3UtilityFunctions";
 
 describe("getImagesFromFolder", () => {
   beforeEach(() => {
