@@ -32,16 +32,17 @@ export const getFoldersInFolder = unstable_cache(
 
     const command = new ListObjectsV2Command(params);
 
-  try {
-    const response = await getClient().send(command);
-    return response.Contents?.filter(
-      (content) =>
-        content.Key?.split("/").length === prefix.split("/").length + 1 &&
-        content.Size === 0
-    );
-  } catch (error) {
-    console.error("Error fetching objects:", error);
-    throw error;
+    try {
+      const response = await getClient().send(command);
+      return response.Contents?.filter(
+        (content) =>
+          content.Key?.split("/").length === prefix.split("/").length + 1 &&
+          content.Size === 0
+      );
+    } catch (error) {
+      console.error("Error fetching objects:", error);
+      throw error;
+    }
   }
 );
 
@@ -54,12 +55,13 @@ export const getFirstImageFromFolder = unstable_cache(
     };
     const command = new ListObjectsV2Command(params);
 
-  try {
-    const response = await getClient().send(command);
-    return response.Contents?.find((content) => content.Size !== 0);
-  } catch (error) {
-    console.error("Error fetching objects:", error);
-    throw error;
+    try {
+      const response = await getClient().send(command);
+      return response.Contents?.find((content) => content.Size !== 0);
+    } catch (error) {
+      console.error("Error fetching objects:", error);
+      throw error;
+    }
   }
 );
 
@@ -70,16 +72,17 @@ export const getImagesFromFolder = unstable_cache(
       Prefix: prefix,
     };
 
-  const command = new ListObjectsV2Command(params);
-  try {
-    const response = await getClient().send(command);
-    return response.Contents?.filter(
-      (content) =>
-        content.Key?.split("/").length === prefix.split("/").length + 1 &&
-        content.Size != 0
-    );
-  } catch (error) {
-    console.error("Error fetching objects:", error);
-    throw error;
+    const command = new ListObjectsV2Command(params);
+    try {
+      const response = await getClient().send(command);
+      return response.Contents?.filter(
+        (content) =>
+          content.Key?.split("/").length === prefix.split("/").length + 1 &&
+          content.Size != 0
+      );
+    } catch (error) {
+      console.error("Error fetching objects:", error);
+      throw error;
+    }
   }
 );

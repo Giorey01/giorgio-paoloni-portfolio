@@ -1,5 +1,12 @@
 import { expect, test, describe, mock, spyOn, beforeEach } from "bun:test";
 
+// Mock Next.js unstable_cache before importing
+mock.module("next/cache", () => {
+  return {
+    unstable_cache: (cb: any) => cb,
+  };
+});
+
 const mockSend = mock();
 
 mock.module("@aws-sdk/client-s3", () => {
