@@ -36,6 +36,40 @@ export const getFoldersInFolder = async (prefix: string) => {
   }
 };
 
+export const getFoldersWithThumbnails = async (prefix: string) => {
+  const params: ListObjectsV2CommandInput = {
+    Bucket: BUCKET_NAME,
+    Prefix: prefix,
+  };
+
+  const command = new ListObjectsV2Command(params);
+
+  try {
+    const response = await client.send(command);
+    const contents = response.Contents || [];
+
+    const folders = contents.filter(
+      (content) =>
+        content.Key?.split("/").length === prefix.split("/").length + 1 &&
+        content.Size === 0
+    );
+
+    const result = folders.map((folder) => {
+      const firstImage = contents.find(
+        (content) =>
+          content.Key?.startsWith(folder.Key!) &&
+          content.Size !== 0
+      );
+      return { folder, firstImage };
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching objects:", error);
+    throw error;
+  }
+};
+
 export const getFirstImageFromFolder = async (prefix: string) => {
   const params: ListObjectsV2CommandInput = {
     Bucket: BUCKET_NAME,
