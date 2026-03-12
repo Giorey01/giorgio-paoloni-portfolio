@@ -43,7 +43,7 @@ export const getFoldersInFolder = unstable_cache(
     console.error("Error fetching objects:", error);
     throw error;
   }
-);
+});
 
 export const getFirstImageFromFolder = unstable_cache(
   async (prefix: string) => {
@@ -61,7 +61,7 @@ export const getFirstImageFromFolder = unstable_cache(
     console.error("Error fetching objects:", error);
     throw error;
   }
-);
+});
 
 export const getImagesFromFolder = unstable_cache(
   async (prefix: string) => {
@@ -82,4 +82,4 @@ export const getImagesFromFolder = unstable_cache(
     console.error("Error fetching objects:", error);
     throw error;
   }
-);
+});
