@@ -22,20 +22,24 @@ const PortfolioCard = ({ folderKey, coverImageUrl, blurDataURL }: PortfolioCardP
 
   return (
     <Link href={href}>
-      <div className="relative flex flex-col w-full text-center border-b-2 border-[#2F3645]">
-        <Image
-          src={coverImageUrl}
-          alt={altText}
-          width={500}
-          height={500}
-          placeholder="blur" // Ensure placeholder is still "blur"
-          className="rounded-t-lg hover:opacity-100 opacity-75 transition-all duration-300 group-hover:scale-105 ease-in-out w-full h-auto"
-          blurDataURL={blurDataURL} // Use the passed blurDataURL prop
-        />
-        <div className="absolute bottom-0 w-full h-auto bg-gradient-to-t from-black/80 to-transparent p-4 flex justify-center items-center">
-          <h2 className="text-2xl md:text-3xl font-bold z-10">
-            {altText}
-          </h2>
+      <div className="space-y-4 group">
+        <div className="relative overflow-hidden bg-gray-100 image-hover-container">
+          <Image
+            src={coverImageUrl}
+            alt={altText}
+            width={500}
+            height={500}
+            placeholder="blur"
+            className="w-full h-auto object-cover"
+            blurDataURL={blurDataURL}
+          />
+          <div className="image-overlay absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-500 flex items-center justify-center">
+            <span className="text-white text-sm tracking-widest uppercase font-light">View Collection</span>
+          </div>
+        </div>
+        <div className="flex justify-between items-end px-2">
+          <h3 className="font-serif italic text-xl text-gallery-dark">{altText}</h3>
+          <span className="text-[10px] tracking-widest uppercase text-gray-400">Series</span>
         </div>
       </div>
     </Link>
