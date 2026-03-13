@@ -2,12 +2,21 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { isValidEmail, escapeHtml } from '@/utils/validation';
 
+// Variabili globali per memorizzare il transporter e le credenziali di test.
+// In Node.js, le variabili definite fuori dalla funzione 'POST'
+// vengono mantenute tra una richiesta e l'altra (caching).
+// Questo evita di creare un nuovo account Ethereal ad ogni singolo invio!
+let cachedTransporter: nodemailer.Transporter | null = null;
+let cachedTestAccount: nodemailer.TestAccount | null = null;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { email, message } = body;
 
-    // Basic validation (as before)
+    // Validazione base (Basic validation)
+    // Ci assicuriamo che i dati inviati dal client siano corretti
+    // prima di procedere.
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required and must be a string.' }, { status: 400 });
     }
@@ -27,7 +36,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Message is too long.' }, { status: 400 });
     }
 
-    // Email sending configuration from environment variables
+    // Configurazione dell'invio delle email tramite variabili d'ambiente.
+    // In React e Next.js, 'process.env' ci permette di accedere a queste variabili
+    // in modo sicuro lato server.
     const {
       EMAIL_HOST,
       EMAIL_PORT,
@@ -37,6 +48,13 @@ export async function POST(request: Request) {
       EMAIL_TO,
     } = process.env;
 
+    let transporter: nodemailer.Transporter;
+    // Variabili per il mittente e destinatario che useremo.
+    // Di default, prendiamo quelle dell'ambiente.
+    let mailFrom = EMAIL_FROM;
+    let mailTo = EMAIL_TO;
+
+    // Se mancano delle configurazioni essenziali per le email...
     if (
       !EMAIL_HOST ||
       !EMAIL_PORT ||
@@ -45,39 +63,68 @@ export async function POST(request: Request) {
       !EMAIL_FROM ||
       !EMAIL_TO
     ) {
-      console.error('Missing email configuration. Please check environment variables.');
-      return NextResponse.json(
-        { error: 'Server configuration error: Email settings are incomplete.' },
-        { status: 500 }
-      );
-    }
+      // Controlliamo se ci troviamo in ambiente di sviluppo locale.
+      // E' un ottimo trucco per Next.js per facilitare lo sviluppo!
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Configurazione email mancante. Utilizzo account di test Ethereal per lo sviluppo locale.');
 
-    const portNumber = Number(EMAIL_PORT);
-    if (isNaN(portNumber)) {
-        console.error('Invalid EMAIL_PORT. Must be a number.');
+        // Riutilizziamo l'account e il transporter se li abbiamo già creati.
+        // Se non esistono ancora (prima richiesta), li creiamo e li salviamo.
+        if (!cachedTransporter || !cachedTestAccount) {
+          console.log('Creazione di un nuovo account di test Ethereal...');
+          cachedTestAccount = await nodemailer.createTestAccount();
+          cachedTransporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false, // In sviluppo, usiamo false se la porta non è 465
+            auth: {
+              user: cachedTestAccount.user, // Utente fittizio generato
+              pass: cachedTestAccount.pass, // Password fittizia generata
+            },
+          });
+        }
+
+        transporter = cachedTransporter;
+
+        // Impostiamo mittente e destinatario fittizi per i nostri test.
+        mailFrom = '"Test Utente" <test@example.com>';
+        mailTo = '"Test Destinatario" <receiver@example.com>';
+      } else {
+        console.error('Missing email configuration. Please check environment variables.');
         return NextResponse.json(
-            { error: 'Server configuration error: Invalid email port.' },
-            { status: 500 }
+          { error: 'Server configuration error: Email settings are incomplete.' },
+          { status: 500 }
         );
-    }
+      }
+    } else {
+      const portNumber = Number(EMAIL_PORT);
+      if (isNaN(portNumber)) {
+          console.error('Invalid EMAIL_PORT. Must be a number.');
+          return NextResponse.json(
+              { error: 'Server configuration error: Invalid email port.' },
+              { status: 500 }
+          );
+      }
 
-    const transporter = nodemailer.createTransport({
-      host: EMAIL_HOST,
-      port: portNumber,
-      secure: portNumber === 465, // true for 465, false for other ports
-      auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASS,
-      },
-    });
+      transporter = nodemailer.createTransport({
+        host: EMAIL_HOST,
+        port: portNumber,
+        secure: portNumber === 465, // true per 465, false per altre porte
+        auth: {
+          user: EMAIL_USER,
+          pass: EMAIL_PASS,
+        },
+      });
+    }
 
     const escapedEmail = escapeHtml(email);
     const escapedMessage = escapeHtml(message);
 
     const mailOptions = {
-      from: EMAIL_FROM,
-      to: EMAIL_TO,
-      replyTo: email, // User's email from the form
+      // L'operatore 'as string' dice a TypeScript che siamo sicuri che questa sia una stringa
+      from: mailFrom as string,
+      to: mailTo as string,
+      replyTo: email, // Email dell'utente che ha compilato il form
       subject: `New Contact Form Message from ${escapedEmail}`,
       text: message,
       html: `<p>You have received a new message from your website contact form:</p>
@@ -87,7 +134,18 @@ export async function POST(request: Request) {
     };
 
     try {
-      await transporter.sendMail(mailOptions);
+      // Usiamo 'await' perché l'invio della mail è un'operazione asincrona
+      const info = await transporter.sendMail(mailOptions);
+
+      // Se stiamo usando l'account di test (Ethereal), possiamo recuperare l'URL
+      // del messaggio per poterlo visualizzare nel browser!
+      if (process.env.NODE_ENV !== 'production' && info.messageId) {
+        const testMessageUrl = nodemailer.getTestMessageUrl(info);
+        if (testMessageUrl) {
+          console.log('Preview URL: %s', testMessageUrl);
+        }
+      }
+
       return NextResponse.json({ message: 'Message sent successfully' }, { status: 200 });
     } catch (emailError) {
       console.error('Failed to send email:', emailError);
