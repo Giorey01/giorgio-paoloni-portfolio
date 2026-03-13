@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getFoldersInFolder, getFirstImageFromFolder, getImagesFromFolder } from '@/utils/awsS3UtilityFunctions';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const start1 = performance.now();
   try {
