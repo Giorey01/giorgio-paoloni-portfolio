@@ -45,21 +45,21 @@ export default async function Home() {
 
   return (
     <div>
-      <section className="py-24 px-6 bg-white text-center">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-white text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif mb-8 italic">Dive into my world</h2>
-          <p className="text-gray-500 leading-relaxed font-light">
+          <h2 className="text-3xl md:text-4xl font-serif mb-6 md:mb-8 italic">Dive into my world</h2>
+          <p className="text-gray-500 leading-relaxed font-light text-sm md:text-base">
             A curated selection of moments frozen in time, where the raw power of nature meets the delicate silence of the wilderness. From deep mossy forests to sun-drenched canyon rivers.
           </p>
         </div>
       </section>
 
-      <section className="pb-24 px-6 md:px-12 max-w-[1600px] mx-auto" id="portfolio">
+      <section className="pb-16 md:pb-24 px-4 md:px-12 max-w-[1600px] mx-auto" id="portfolio">
         {portfolioFolders.length > 0 ? (
           <MasonryWrapper
             breakpointCols={breakpointColumnsObj}
-            className="flex w-auto gap-8"
-            columnClassName="bg-clip-padding flex flex-col gap-8"
+            className="flex w-auto gap-4 md:gap-8"
+            columnClassName="bg-clip-padding flex flex-col gap-4 md:gap-8"
           >
             {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
               if (!coverImageUrl) return null;
