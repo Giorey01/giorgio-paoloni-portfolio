@@ -44,7 +44,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="pt-20">
+    <div>
       <section className="py-24 px-6 bg-white text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-serif mb-8 italic">Dive into my world</h2>

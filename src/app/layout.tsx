@@ -37,7 +37,7 @@ export default function RootLayout({
           <div className="w-full flex justify-center">
             <Header />
           </div>
-          <div className="mb-16">{children}</div>
+          <div className="mb-16 pt-20">{children}</div>
           <Footer />
           <SpeedInsights />
         </body>
