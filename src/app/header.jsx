@@ -21,6 +21,7 @@ function Header() {
   }, [isNavOpen]);
 
   return (
+    <>
     <header className="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
       <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo/Brand */}
@@ -57,6 +58,7 @@ function Header() {
           </button>
         </div>
       </nav>
+    </header>
 
       {/* Mobile Menu Drawer */}
       <div
@@ -102,7 +104,7 @@ function Header() {
           </li>
         </ul>
       </div>
-    </header>
+    </>
   );
 }
 
