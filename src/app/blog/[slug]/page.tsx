@@ -110,6 +110,7 @@ function BlogPage({ params }: BlogPageProps) {
                 component: ({ src, alt }) => (
                   <div className="my-10 flex flex-col items-center">
                     <div className="relative w-full max-w-2xl aspect-auto">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                        <img
                         src={src}
                         alt={alt}
