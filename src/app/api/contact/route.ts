@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { isValidEmail } from '@/utils/validation';
+import { isValidEmail, escapeHtml } from '@/utils/validation';
 
 export async function POST(request: Request) {
   try {
@@ -11,6 +11,9 @@ export async function POST(request: Request) {
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required and must be a string.' }, { status: 400 });
     }
+    if (email.length > 254) {
+      return NextResponse.json({ error: 'Email is too long.' }, { status: 400 });
+    }
     if (!isValidEmail(email)) {
       return NextResponse.json({ error: 'Invalid email format.' }, { status: 400 });
     }
@@ -19,6 +22,9 @@ export async function POST(request: Request) {
     }
     if (message.trim().length === 0) {
       return NextResponse.json({ error: 'Message cannot be empty.' }, { status: 400 });
+    }
+    if (message.length > 5000) {
+      return NextResponse.json({ error: 'Message is too long.' }, { status: 400 });
     }
 
     // Email sending configuration from environment variables
@@ -65,16 +71,19 @@ export async function POST(request: Request) {
       },
     });
 
+    const escapedEmail = escapeHtml(email);
+    const escapedMessage = escapeHtml(message);
+
     const mailOptions = {
       from: EMAIL_FROM,
       to: EMAIL_TO,
       replyTo: email, // User's email from the form
-      subject: `New Contact Form Message from ${email}`,
+      subject: `New Contact Form Message from ${escapedEmail}`,
       text: message,
       html: `<p>You have received a new message from your website contact form:</p>
-             <p><strong>From:</strong> ${email}</p>
+             <p><strong>From:</strong> ${escapedEmail}</p>
              <p><strong>Message:</strong></p>
-             <p>${message.replace(/\n/g, '<br>')}</p>`,
+             <p>${escapedMessage.replace(/\n/g, '<br>')}</p>`,
     };
 
     try {
