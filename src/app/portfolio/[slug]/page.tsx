@@ -93,10 +93,10 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
 
   return (
     <div className="p-4 md:p-8 lg:p-14">
-      <h1 className="text-3xl text-center font-bold p-6 lg:p-10 capitalize">
+      <h1 className="text-3xl md:text-4xl text-center font-bold p-6 md:p-10 capitalize">
         {decodeURIComponent(slug).replace(/-/g, " ")}
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {currentAlbumImages.map((imageDetail, index) => { // Renamed to imageDetail
           // Derive altText from imageDetail.url
           const altText = imageDetail.url.substring(imageDetail.url.lastIndexOf('/') + 1) || `Image ${index + 1} for ${slug}`;

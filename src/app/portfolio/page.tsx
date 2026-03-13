@@ -55,14 +55,14 @@ const PortfolioPage = async () => {
 
   return (
     <div>
-      <h1 className="text-3xl text-center font-bold p-10 lg:p-16">
+      <h1 className="text-3xl text-center font-bold p-6 md:p-10 lg:p-16">
         Dive into my world
       </h1>
       <div className="p-4 md:p-8 lg:p-14">
         <MasonryWrapper
           breakpointCols={breakpointColumnsObj}
-          className="flex w-auto gap-4"
-          columnClassName="bg-clip-padding flex flex-col gap-4"
+          className="flex w-auto gap-4 md:gap-8"
+          columnClassName="bg-clip-padding flex flex-col gap-4 md:gap-8"
         >
           {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
             // The filter above ensures coverImageUrl is defined

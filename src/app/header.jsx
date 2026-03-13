@@ -2,11 +2,23 @@
 import { FaInstagram } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (isNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isNavOpen]);
 
   return (
     <header className="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
@@ -67,24 +79,24 @@ function Header() {
             <RxCross2 className="w-6 h-6" />
           </button>
         </div>
-        <ul className="flex flex-col items-center justify-center space-y-8 text-xl uppercase tracking-widest font-light">
+        <ul className="flex flex-col items-center justify-center space-y-4 text-xl uppercase tracking-widest font-light">
           <li>
-            <Link href="/" onClick={() => setIsNavOpen(false)} className="hover:text-gray-500 transition-colors">
+            <Link href="/" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
               Home
             </Link>
           </li>
           <li>
-            <Link href="/portfolio" onClick={() => setIsNavOpen(false)} className="hover:text-gray-500 transition-colors">
+            <Link href="/portfolio" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
               Portfolio
             </Link>
           </li>
           <li>
-            <Link href="/about" onClick={() => setIsNavOpen(false)} className="hover:text-gray-500 transition-colors">
+            <Link href="/about" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
               About
             </Link>
           </li>
           <li>
-            <Link href="/blog" onClick={() => setIsNavOpen(false)} className="hover:text-gray-500 transition-colors">
+            <Link href="/blog" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
               Blog
             </Link>
           </li>

@@ -54,10 +54,10 @@ function About() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-24 min-h-full max-w-6xl mx-auto px-6 py-12">
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-24 min-h-full max-w-6xl mx-auto px-6 py-8 md:py-12">
       {/* Left side: Photo and Bio */}
       <div className="flex flex-col items-center md:items-start max-w-md w-full">
-        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8 border border-neutral-300 p-2 bg-white shadow-sm">
+        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-6 md:mb-8 border border-neutral-300 p-2 bg-white shadow-sm">
           <Image
             src={
               "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
@@ -67,7 +67,7 @@ function About() {
             alt="Giorgio Paoloni"
           />
         </div>
-        <h1 className="text-4xl md:text-5xl font-light tracking-widest uppercase mb-6 text-neutral-800">
+        <h1 className="text-4xl md:text-5xl font-light tracking-widest uppercase mb-4 md:mb-6 text-neutral-800 text-center md:text-left">
           Giorgio Paoloni
         </h1>
         <div className="space-y-4 text-neutral-600 leading-relaxed text-sm md:text-base text-center md:text-left">
@@ -81,13 +81,13 @@ function About() {
       </div>
 
       {/* Right side: Contact Form */}
-      <div className="flex flex-col w-full max-w-md mt-10 md:mt-0">
-        <h2 className="text-2xl font-light tracking-widest uppercase mb-10 text-neutral-800 border-b border-neutral-300 pb-4">
+      <div className="flex flex-col w-full max-w-md mt-8 md:mt-0">
+        <h2 className="text-2xl font-light tracking-widest uppercase mb-8 md:mb-10 text-neutral-800 border-b border-neutral-300 pb-4 text-center md:text-left">
           Contact
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-8 w-full"
+          className="flex flex-col gap-6 md:gap-8 w-full"
         >
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="text-xs uppercase tracking-widest text-neutral-500">

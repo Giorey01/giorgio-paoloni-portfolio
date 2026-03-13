@@ -31,7 +31,7 @@ export default function RootLayout({
     <>
       <html
         lang="en"
-        className={`relative min-h-screen bg-gallery-white text-gallery-dark font-sans antialiased ${inter.variable} ${playfairDisplay.variable}`}
+        className={`relative min-h-[100dvh] bg-gallery-white text-gallery-dark font-sans antialiased ${inter.variable} ${playfairDisplay.variable}`}
       >
         <body className={inter.className}>
           <div className="w-full flex justify-center">
