@@ -1,26 +1,44 @@
+// "use client" dice a Next.js di eseguire questo componente nel browser.
+// Questo è obbligatorio quando si usano moduli interattivi o "stati" come useState.
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { FaArrowDownLong } from "react-icons/fa6";
-import { isValidEmail } from "@/utils/validation";
+import { isValidEmail } from "@/utils/validation"; // Funzione creata per controllare se l'email è scritta bene
 
 function About() {
+  // `useState` è un Hook di React che permette al componente di "ricordare" dei dati che cambiano nel tempo.
+  // Struttura: const [valore, funzionePerModificareIlValore] = useState(valoreIniziale)
+
+  // Memorizza ciò che l'utente scrive nel campo "Email"
   const [email, setEmail] = useState("");
+  // Memorizza ciò che l'utente scrive nel campo "Messaggio"
   const [message, setMessage] = useState("");
+  // Memorizza lo stato del form: 'idle' (fermo), 'loading' (caricamento), 'success' o 'error'.
+  // Questo ci serve per disabilitare il bottone mentre si invia il messaggio e mostrare il caricamento.
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  // Memorizza il messaggio di errore o di successo da mostrare all'utente dopo l'invio.
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  // Funzione che viene chiamata quando l'utente clicca "Invia" o preme Invio nel form.
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    // PREVIENE IL COMPORTAMENTO PREDEFINITO DEL BROWSER.
+    // Di default, HTML farebbe ricaricare l'intera pagina ricaricandola. Noi non lo vogliamo nelle app React.
     event.preventDefault();
+
+    // Cambiamo lo stato per mostrare che stiamo elaborando la richiesta e svuotiamo vecchi messaggi
     setStatus("loading");
     setFeedbackMessage("");
 
-    // Basic client-side validation
+    // Validazione base lato client (prima di mandare al server)
+    // .trim() rimuove gli spazi bianchi all'inizio e alla fine.
     if (!email.trim() || !message.trim()) {
       setFeedbackMessage("Email and message fields cannot be empty.");
       setStatus("error");
-      return;
+      return; // Interrompe l'esecuzione della funzione
     }
+
+    // Usa la funzione di validazione importata per controllare il formato (es. manca la @)
     if (!isValidEmail(email)) {
         setFeedbackMessage("Invalid email format.");
         setStatus("error");
@@ -28,26 +46,33 @@ function About() {
     }
 
     try {
+      // Effettuiamo una chiamata (fetch) all'API backend del nostro sito (il file api/contact/route.ts)
       const response = await fetch("/api/contact", {
-        method: "POST",
+        method: "POST", // Tipo di richiesta (Stiamo "inviando" dati)
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // Diciamo al server che i dati sono in formato JSON
         },
+        // body: trasforma i nostri dati (email e message) in una stringa testuale formato JSON.
         body: JSON.stringify({ email, message }),
       });
 
+      // Aspettiamo e convertiamo la risposta del server da JSON a un oggetto JavaScript
       const result = await response.json();
 
+      // response.ok è true se il server risponde con un codice di successo (tipo 200 o 201)
       if (response.ok) {
         setFeedbackMessage(result.message || "Message sent successfully!");
         setStatus("success");
+        // Svuotiamo i campi del form per permettere di inviare un nuovo messaggio
         setEmail("");
         setMessage("");
       } else {
+        // Se il server risponde con un errore (es. 400 o 500), mostriamo l'errore del server o un testo standard
         setFeedbackMessage(result.error || "An error occurred.");
         setStatus("error");
       }
     } catch (error) {
+      // Se il fetch fallisce del tutto (es. niente internet o server giù), cade qui nel "catch".
       setFeedbackMessage("Failed to send message. Please try again later.");
       setStatus("error");
     }
@@ -85,6 +110,7 @@ function About() {
         <h2 className="text-2xl font-light tracking-widest uppercase mb-8 md:mb-10 text-neutral-800 border-b border-neutral-300 pb-4 text-center md:text-left">
           Contact
         </h2>
+        {/* Il form chiama la funzione handleSubmit quando viene inviato (onSubmit) */}
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-6 md:gap-8 w-full"
@@ -99,8 +125,11 @@ function About() {
               id="email"
               placeholder="your@email.com"
               className="border-b border-neutral-400 bg-transparent py-2 px-0 focus:outline-none focus:border-neutral-800 transition-colors duration-300 rounded-none placeholder-neutral-300"
+              // Colleghiamo l'input allo stato di React. (Two-way data binding)
+              // Il suo valore è `email`. Quando l'utente digita (onChange), chiamiamo `setEmail` per aggiornarlo.
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              // L'input viene disabilitato in modo che l'utente non possa scrivere mentre sta caricando
               disabled={status === "loading"}
             />
           </div>
@@ -119,6 +148,7 @@ function About() {
             />
           </div>
           <div className="mt-4">
+            {/* Bottone di submit. Modifica il testo in "Sending..." in base allo stato. */}
             <button
               type="submit"
               className="w-full bg-neutral-800 text-neutral-100 uppercase tracking-widest text-sm py-4 hover:bg-black transition-colors disabled:opacity-50"
@@ -127,6 +157,7 @@ function About() {
               {status === "loading" ? "Sending..." : "Send Message"}
             </button>
           </div>
+          {/* Se c'è un messaggio di feedback, mostra un blocco in basso con stili diversi a seconda che sia di successo o di errore */}
           {feedbackMessage && (
             <div
               className={`mt-4 text-center p-3 text-sm tracking-wide ${
