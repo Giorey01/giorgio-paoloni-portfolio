@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  /* Sfondo leggermente caldo/crema per dare l'effetto di carta stampata */
+  background-color: #fcfbf8;
+  color: #1a1a1a;
+}
+
 img {
   @apply animate-scale-up-center;
 }
