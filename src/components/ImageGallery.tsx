@@ -93,8 +93,8 @@ export default function ImageGallery({ images, slug }: ImageGalleryProps) {
       */}
       <Masonry
         breakpointCols={{ default: 4, 1024: 3, 768: 2, 640: 1 }}
-        className="flex w-auto -ml-4 md:-ml-6"
-        columnClassName="pl-4 md:pl-6 bg-clip-padding"
+        className="flex w-auto -ml-4 md:-ml-8"
+        columnClassName="pl-4 md:pl-8 bg-clip-padding"
       >
         {images.map((imageDetail, index) => {
           const altText = imageDetail.url.substring(imageDetail.url.lastIndexOf('/') + 1) || `Image ${index + 1} for ${slug}`;
@@ -104,7 +104,7 @@ export default function ImageGallery({ images, slug }: ImageGalleryProps) {
               // Quando l'utente clicca su una foto, cambiamo lo stato impostando l'indice cliccato.
               // Questo triggera un ri-rendering (refresh) e fa aprire il modale (isModalOpen diventa true).
               onClick={() => setSelectedIndex(index)}
-              className="relative w-full overflow-hidden mb-4 md:mb-6 rounded-lg shadow-md cursor-pointer group"
+              className="relative w-full overflow-hidden mb-4 md:mb-8 cursor-pointer group"
             >
               <Image
                 src={imageDetail.url}
@@ -114,7 +114,7 @@ export default function ImageGallery({ images, slug }: ImageGalleryProps) {
                 sizes="100vw"
                 style={{ width: '100%', height: 'auto' }}
                 // group-hover applica un effetto di scale quando si passa col mouse sull'intero contenitore
-                className="object-cover w-full h-auto rounded-md transition-transform duration-300 group-hover:scale-105"
+                className="object-cover w-full h-auto transition-transform duration-300 group-hover:scale-105"
                 placeholder="blur"
                 blurDataURL={imageDetail.blurDataURL}
               />
