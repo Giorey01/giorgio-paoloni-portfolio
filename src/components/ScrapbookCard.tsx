@@ -6,7 +6,7 @@ import React from "react";
 
 // Definisce le Props (dati) per la singola card in stile scrapbook
 interface ScrapbookCardProps {
-  folderKey: string;
+  folderKey?: string;
   coverImageUrl: string;
   blurDataURL: string;
   rotation: string;      // Gradi di rotazione (es. "-rotate-2", "rotate-3")
@@ -14,6 +14,8 @@ interface ScrapbookCardProps {
   tapePosition: "top" | "bottom" | "corners"; // Dove mettere lo scotch
   stampType?: "postage" | "approval" | "scribble" | "none"; // Che timbro aggiungere
   marginTop?: string;    // Margine superiore per "sfalsare" le immagini
+  title?: string;
+  href?: string;
 }
 
 const ScrapbookCard = ({
@@ -24,15 +26,19 @@ const ScrapbookCard = ({
   zIndex,
   tapePosition,
   stampType = "none",
-  marginTop = "mt-0"
+  marginTop = "mt-0",
+  title,
+  href: customHref
 }: ScrapbookCardProps) => {
-  const altText = folderKey.split('/').filter(Boolean).pop() || "Portfolio image";
+  const altText = title || (folderKey ? folderKey.split('/').filter(Boolean).pop() : "Portfolio image") || "Portfolio image";
   const slug = folderKey
-    .toLowerCase()
-    .replace(/^portfolio\//, "")
-    .replace(/\/$/, "");
+    ? folderKey
+        .toLowerCase()
+        .replace(/^portfolio\//, "")
+        .replace(/\/$/, "")
+    : "";
 
-  const href = `/portfolio/${slug}`;
+  const href = customHref || `/portfolio/${slug}`;
 
   return (
     <Link href={href} className="block group w-full outline-none">
@@ -69,9 +75,9 @@ const ScrapbookCard = ({
               alt={altText}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              placeholder="blur"
+              placeholder={blurDataURL ? "blur" : "empty"}
               className="object-cover grayscale-[0.2] contrast-125 group-hover:grayscale-0 transition-all duration-700"
-              blurDataURL={blurDataURL}
+              blurDataURL={blurDataURL || undefined}
             />
           </div>
 
@@ -81,7 +87,7 @@ const ScrapbookCard = ({
             <span className="font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-500 font-bold border-b border-gray-300 pb-1">Series</span>
           </div>
 
-          <PhotoLabel text={`FILE: ${slug.substring(0,6).toUpperCase()}`} className="-bottom-3 right-4 rotate-3" />
+          <PhotoLabel text={`FILE: ${altText.toUpperCase()}`} className="-bottom-3 right-4 rotate-3" />
         </div>
       </div>
     </Link>

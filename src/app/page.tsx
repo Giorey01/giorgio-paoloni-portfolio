@@ -37,11 +37,11 @@ export default async function Home() {
   // Per creare un effetto "caotico" ma controllato, definiamo un array di stili preimpostati (rotazioni, margini, z-index).
   // Li applicheremo in ciclo (modulo) agli elementi per non avere un collage completamente randomico e ingestibile.
   const collageStyles = [
-    { rotation: "rotate-[-3deg]", zIndex: 10, tapePosition: "top" as const, stampType: "postage" as const, marginTop: "mt-0" },
+    { rotation: "rotate-[-3deg]", zIndex: 10, tapePosition: "top" as const, stampType: "none" as const, marginTop: "mt-0" },
     { rotation: "rotate-[4deg]", zIndex: 20, tapePosition: "corners" as const, stampType: "none" as const, marginTop: "md:mt-24 mt-12" },
     { rotation: "rotate-[-1deg]", zIndex: 5, tapePosition: "bottom" as const, stampType: "scribble" as const, marginTop: "md:mt-8 mt-4" },
-    { rotation: "rotate-[2deg]", zIndex: 30, tapePosition: "top" as const, stampType: "approval" as const, marginTop: "md:-mt-16 -mt-8" },
-    { rotation: "rotate-[-5deg]", zIndex: 15, tapePosition: "corners" as const, stampType: "postage" as const, marginTop: "md:mt-32 mt-16" },
+    { rotation: "rotate-[2deg]", zIndex: 30, tapePosition: "top" as const, stampType: "none" as const, marginTop: "md:-mt-16 -mt-8" },
+    { rotation: "rotate-[-5deg]", zIndex: 15, tapePosition: "corners" as const, stampType: "none" as const, marginTop: "md:mt-32 mt-16" },
     { rotation: "rotate-[1deg]", zIndex: 25, tapePosition: "bottom" as const, stampType: "none" as const, marginTop: "md:-mt-4 mt-0" },
   ];
 
