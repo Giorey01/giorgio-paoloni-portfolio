@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { isValidEmail } from "@/utils/validation"; // Funzione creata per controllare se l'email è scritta bene
+import { PaperTexture, TapePiece, PostageStamp, PhotoLabel } from "@/components/ScrapbookDecorations";
 
 function About() {
   // `useState` è un Hook di React che permette al componente di "ricordare" dei dati che cambiano nel tempo.
@@ -79,37 +80,51 @@ function About() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-24 min-h-full max-w-6xl mx-auto px-6 py-8 md:py-12">
-      {/* Left side: Photo and Bio */}
-      <div className="flex flex-col items-center md:items-start max-w-md w-full">
-        <div className="relative w-64 h-64 md:w-80 md:h-80 mb-6 md:mb-8 border border-neutral-300 p-2 bg-white shadow-sm">
-          <Image
-            src={
-              "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
-            }
-            fill
-            className="object-cover grayscale"
-            alt="Giorgio Paoloni"
-          />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-light tracking-widest uppercase mb-4 md:mb-6 text-neutral-800 text-center md:text-left">
-          Giorgio Paoloni
-        </h1>
-        <div className="space-y-4 text-neutral-600 leading-relaxed text-sm md:text-base text-center md:text-left">
-          <p>
-            In my free time I like to document the places I visit through photography.
-          </p>
-          <p>
-            Every shot is a way to share the experiences and beauties I encounter along my path, blending digital precision with an analog soul.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen relative overflow-hidden bg-[#fcfbf8]">
+      <PaperTexture className="fixed inset-0 pointer-events-none z-0" />
 
-      {/* Right side: Contact Form */}
-      <div className="flex flex-col w-full max-w-md mt-8 md:mt-0">
-        <h2 className="text-2xl font-light tracking-widest uppercase mb-8 md:mb-10 text-neutral-800 border-b border-neutral-300 pb-4 text-center md:text-left">
-          Contact
-        </h2>
+      <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-24 min-h-full max-w-6xl mx-auto px-6 py-12 md:py-24">
+        {/* Left side: Photo and Bio */}
+        <div className="flex flex-col items-center md:items-start max-w-md w-full">
+
+          <div className="mb-8 relative transition-all duration-500 ease-out hover:scale-[1.02] rotate-[-2deg]">
+            <div className="bg-[#fdfdfd] p-3 md:p-4 pb-12 md:pb-16 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 relative group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)]">
+              <TapePiece className="-top-4 left-1/2 -translate-x-1/2 rotate-[-2deg]" />
+              <PostageStamp className="-right-8 -top-8 rotate-12" />
+
+              <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gray-100 overflow-hidden">
+                <Image
+                  src={
+                    "https://d321io5nxf2wuu.cloudfront.net/Assets/Foto_Profilo-removebg-preview.webp"
+                  }
+                  fill
+                  className="object-cover grayscale-[0.2] contrast-125"
+                  alt="Giorgio Paoloni"
+                />
+              </div>
+
+              <PhotoLabel text="FILE: BIO" className="-bottom-3 right-4 rotate-3" />
+            </div>
+          </div>
+
+          <h1 className="font-serif italic text-6xl md:text-[90px] leading-[0.8] tracking-tighter text-[#1a1a1a] uppercase select-none mb-8 text-center md:text-left">
+            Giorgio<br/>Paoloni
+          </h1>
+          <div className="space-y-4 text-neutral-600 leading-relaxed text-sm md:text-base text-center md:text-left mix-blend-multiply">
+            <p>
+              In my free time I like to document the places I visit through photography.
+            </p>
+            <p>
+              Every shot is a way to share the experiences and beauties I encounter along my path, blending digital precision with an analog soul.
+            </p>
+          </div>
+        </div>
+
+        {/* Right side: Contact Form */}
+        <div className="flex flex-col w-full max-w-md mt-8 md:mt-0">
+          <h2 className="font-serif italic text-4xl mb-8 text-[#1a1a1a] border-b border-gray-300 pb-4 text-center md:text-left mix-blend-multiply">
+            Contact
+          </h2>
         {/* Il form chiama la funzione handleSubmit quando viene inviato (onSubmit) */}
         <form
           onSubmit={handleSubmit}
@@ -157,17 +172,18 @@ function About() {
               {status === "loading" ? "Sending..." : "Send Message"}
             </button>
           </div>
-          {/* Se c'è un messaggio di feedback, mostra un blocco in basso con stili diversi a seconda che sia di successo o di errore */}
-          {feedbackMessage && (
-            <div
-              className={`mt-4 text-center p-3 text-sm tracking-wide ${
-                status === "success" ? "text-neutral-600 border border-neutral-300" : ""
-              } ${status === "error" ? "text-red-600 border border-red-200" : ""}`}
-            >
-              {feedbackMessage}
-            </div>
-          )}
-        </form>
+            {/* Se c'è un messaggio di feedback, mostra un blocco in basso con stili diversi a seconda che sia di successo o di errore */}
+            {feedbackMessage && (
+              <div
+                className={`mt-4 text-center p-3 text-sm tracking-wide ${
+                  status === "success" ? "text-neutral-600 border border-neutral-300" : ""
+                } ${status === "error" ? "text-red-600 border border-red-200" : ""}`}
+              >
+                {feedbackMessage}
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

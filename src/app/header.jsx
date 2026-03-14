@@ -50,7 +50,6 @@ function Header() {
         {/* Mostrato solo su schermi medi (md) in su. Nascosto su smartphone. */}
         <div className="hidden md:flex items-center space-x-8 text-sm uppercase tracking-widest font-light">
           <Link href="/" className="hover:text-gray-500 transition-colors">Home</Link>
-          <Link href="/portfolio" className="hover:text-gray-500 transition-colors">Portfolio</Link>
           <Link href="/about" className="hover:text-gray-500 transition-colors">About</Link>
           <Link href="/blog" className="hover:text-gray-500 transition-colors">Blog</Link>
         </div>
@@ -110,11 +109,6 @@ function Header() {
           <li>
             <Link href="/" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
               Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/portfolio" onClick={() => setIsNavOpen(false)} className="block py-4 px-8 hover:text-gray-500 transition-colors">
-              Portfolio
             </Link>
           </li>
           <li>
