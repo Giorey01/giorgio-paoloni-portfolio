@@ -45,26 +45,17 @@ const PortfolioPage = async () => {
     );
   }
 
-  // Processiamo l'oggetto `imageData` estratto. 'Object.entries' converte l'oggetto in un array di [chiave, valore]
-  const portfolioFolders = Object.entries(imageData)
-    // Usiamo filter() per scartare qualsiasi elemento che non sia dentro la directory "Portfolio/"
-    .filter(([folderKey]) => folderKey.startsWith("Portfolio/"))
-    // Usiamo map() per trasformare ogni entry in un oggetto personalizzato semplificato da dare poi alla card
-    .map(([folderKey, imageObjects]) => {
-      // Controlliamo che l'array di immagini non sia vuoto, e che abbia almeno un'immagine con URL
-      if (imageObjects && imageObjects.length > 0 && imageObjects[0] && imageObjects[0].url) {
-        return {
-          folderKey,
-          coverImageUrl: imageObjects[0].url,             // Usiamo la prima immagine della serie come copertina
-          blurDataURL: imageObjects[0].blurDataURL || "", // Fallback (valore predefinito) se la foto sfocata è assente
-        };
-      }
-      // Se non ci sono immagini, ritorniamo le proprietà "undefined"
-      // Questo verrà poi filtrato ed eliminato nel passaggio successivo
-      return { folderKey, coverImageUrl: undefined, blurDataURL: undefined }; 
-    })
-    // Un altro filter() per tenere solo quegli elementi che hanno un'immagine di copertina (cioè dove 'coverImageUrl' non è undefined)
-    .filter(item => item.coverImageUrl !== undefined);
+  // Processiamo l'oggetto `imageData` estratto in un singolo passaggio tramite reduce()
+  const portfolioFolders = Object.entries(imageData).reduce((acc: { folderKey: string; coverImageUrl: string; blurDataURL: string }[], [folderKey, imageObjects]) => {
+    if (folderKey.startsWith("Portfolio/") && imageObjects && imageObjects.length > 0 && imageObjects[0] && imageObjects[0].url) {
+      acc.push({
+        folderKey,
+        coverImageUrl: imageObjects[0].url,
+        blurDataURL: imageObjects[0].blurDataURL || "",
+      });
+    }
+    return acc;
+  }, []);
 
   // Determina in quante colonne suddividere la griglia Masonry a seconda della larghezza dello schermo (responsiveness)
   const breakpointColumnsObj = {

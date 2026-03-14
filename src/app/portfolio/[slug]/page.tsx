@@ -63,11 +63,11 @@ export const generateStaticParams = async () => {
   }
 
   // Prende tutti i nomi delle cartelle e li trasforma in un array di oggetti { slug: 'nome-album' }
-  // reduce() è un metodo avanzato che trasforma un array in un unico risultato finale (in questo caso un nuovo array di oggetti).
+  // reduce() elabora l'array di chiavi in un unico passaggio, filtrando le cartelle di "Portfolio/" e generando lo slug in modo ottimizzato.
   const slugs = Object.keys(imageData).reduce((acc: { slug: string }[], folderKey) => {
     const slug = getSlugFromFolderKey(folderKey);
     if (slug !== null) {
-      acc.push({ slug }); // Aggiunge l'oggetto slug all'accumulatore (acc)
+      acc.push({ slug });
     }
     return acc;
   }, []);

@@ -23,19 +23,16 @@ export default async function Home() {
     console.error("Failed to read or parse image_urls.json:", error);
   }
 
-  const portfolioFolders = Object.entries(imageData)
-    .filter(([folderKey]) => folderKey.startsWith("Portfolio/"))
-    .map(([folderKey, imageObjects]) => {
-      if (imageObjects && imageObjects.length > 0 && imageObjects[0] && imageObjects[0].url) {
-        return {
-          folderKey,
-          coverImageUrl: imageObjects[0].url,
-          blurDataURL: imageObjects[0].blurDataURL || "",
-        };
-      }
-      return { folderKey, coverImageUrl: undefined, blurDataURL: undefined };
-    })
-    .filter(item => item.coverImageUrl !== undefined);
+  const portfolioFolders = Object.entries(imageData).reduce((acc: { folderKey: string; coverImageUrl: string; blurDataURL: string }[], [folderKey, imageObjects]) => {
+    if (folderKey.startsWith("Portfolio/") && imageObjects && imageObjects.length > 0 && imageObjects[0] && imageObjects[0].url) {
+      acc.push({
+        folderKey,
+        coverImageUrl: imageObjects[0].url,
+        blurDataURL: imageObjects[0].blurDataURL || "",
+      });
+    }
+    return acc;
+  }, []);
 
   // Per creare un effetto "caotico" ma controllato, definiamo un array di stili preimpostati (rotazioni, margini, z-index).
   // Li applicheremo in ciclo (modulo) agli elementi per non avere un collage completamente randomico e ingestibile.
