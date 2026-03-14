@@ -1,5 +1,5 @@
 // Importa i componenti decorativi per lo stile "Scrapbook" (diario fotografico/collage)
-import { TapePiece, PostageStamp, PhotoLabel, ApprovalStamp, ScribbleCircle } from "@/components/ScrapbookDecorations";
+import { TapePiece, ApprovalStamp, ScribbleCircle } from "@/components/ScrapbookDecorations";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -64,7 +64,6 @@ const ScrapbookCard = ({
           )}
 
           {/* Timbri decorativi */}
-          {stampType === "postage" && <PostageStamp className="-right-8 -top-8 rotate-12" />}
           {stampType === "approval" && <ApprovalStamp text="SELECTED" color="#1a1a1a" className="top-1/4 -left-6" />}
           {stampType === "scribble" && <ScribbleCircle className="-bottom-10 -right-6 scale-75" />}
 
@@ -86,8 +85,6 @@ const ScrapbookCard = ({
             <span className="font-serif italic text-xl md:text-2xl text-gallery-dark tracking-wide">{altText}</span>
             <span className="font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-500 font-bold border-b border-gray-300 pb-1">Series</span>
           </div>
-
-          <PhotoLabel text={`FILE: ${altText.toUpperCase()}`} className="-bottom-3 right-4 rotate-3" />
         </div>
       </div>
     </Link>
