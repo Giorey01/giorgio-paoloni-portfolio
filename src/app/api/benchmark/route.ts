@@ -4,6 +4,10 @@ import { getFoldersInFolder, getFirstImageFromFolder, getImagesFromFolder } from
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 });
+  }
+
   const start1 = performance.now();
   try {
     await getFoldersInFolder('Portfolio/');
