@@ -79,8 +79,6 @@ async function Blog() {
 
       {/* Footer Editoriale della Homepage (opzionale, per chiudere la pagina) */}
       <footer className="relative z-10 border-t-2 border-dashed border-gray-300 mx-6 md:mx-16 mt-16 py-8 flex justify-between items-center text-[#1a1a1a]">
-        <span className="font-serif italic text-xl">End of Selection</span>
-        <span className="font-sans uppercase text-[10px] tracking-[0.3em] font-bold">Vol. 01 / Current Year</span>
       </footer>
     </div>
   );
