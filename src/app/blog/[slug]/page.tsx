@@ -72,15 +72,8 @@ function BlogPage({ params }: BlogPageProps) {
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-12">
-      <Link
-        href="/blog"
-        className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-8 font-medium"
-      >
-        <FaArrowLeft className="mr-2" /> Torna al Blog
-      </Link>
-
       <header className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+        <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4 leading-tight">
           {post.data.title.replace(/_/g, " ")}
         </h1>
         <div className="flex items-center text-gray-500 text-sm">
@@ -91,7 +84,7 @@ function BlogPage({ params }: BlogPageProps) {
       </header>
 
       {post.data.thumbnail && (
-        <div className="relative w-full aspect-video mb-12 rounded-2xl overflow-hidden shadow-lg">
+        <div className="relative w-full aspect-video mb-12 overflow-hidden shadow-lg">
           <Image
             src={post.data.thumbnail}
             alt={post.data.title}
@@ -102,7 +95,7 @@ function BlogPage({ params }: BlogPageProps) {
         </div>
       )}
 
-      <article className="markdown-container prose prose-lg max-w-none">
+      <article className="markdown-container prose prose-lg max-w-none font-serif text-gallery-dark">
         <Markdown
           options={{
             overrides: {
@@ -114,15 +107,15 @@ function BlogPage({ params }: BlogPageProps) {
                        <img
                         src={src}
                         alt={alt}
-                        className="rounded-xl shadow-md w-full h-auto"
+                        className="shadow-md w-full h-auto"
                       />
                     </div>
                     {alt && <p className="mt-3 text-sm text-gray-500 italic">{alt}</p>}
                   </div>
                 ),
               },
-              h1: { component: ({children}) => <h1 className="text-3xl font-bold mt-12 mb-6">{children}</h1> },
-              h2: { component: ({children}) => <h2 className="text-2xl font-bold mt-10 mb-5">{children}</h2> },
+              h1: { component: ({children}) => <h1 className="text-3xl font-serif font-bold mt-12 mb-6">{children}</h1> },
+              h2: { component: ({children}) => <h2 className="text-2xl font-serif font-bold mt-10 mb-5">{children}</h2> },
               p: { component: ({children}) => <p className="text-gray-700 leading-relaxed mb-6">{children}</p> },
               ul: { component: ({children}) => <ul className="list-disc ml-6 mb-6 space-y-2">{children}</ul> },
               li: { component: ({children}) => <li className="text-gray-700">{children}</li> },
