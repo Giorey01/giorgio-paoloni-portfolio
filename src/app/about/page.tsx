@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { isValidEmail } from "@/utils/validation"; // Funzione creata per controllare se l'email è scritta bene
-import { PaperTexture, TapePiece, PostageStamp, PhotoLabel } from "@/components/ScrapbookDecorations";
+import { PaperTexture, TapePiece } from "@/components/ScrapbookDecorations";
 
 function About() {
   // `useState` è un Hook di React che permette al componente di "ricordare" dei dati che cambiano nel tempo.
@@ -90,7 +90,6 @@ function About() {
           <div className="mb-8 relative transition-all duration-500 ease-out hover:scale-[1.02] rotate-[-2deg]">
             <div className="bg-[#fdfdfd] p-3 md:p-4 pb-12 md:pb-16 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 relative group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)]">
               <TapePiece className="-top-4 left-1/2 -translate-x-1/2 rotate-[-2deg]" />
-              <PostageStamp className="-right-8 -top-8 rotate-12" />
 
               <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gray-100 overflow-hidden">
                 <Image
@@ -102,8 +101,6 @@ function About() {
                   alt="Giorgio Paoloni"
                 />
               </div>
-
-              <PhotoLabel text="FILE: BIO" className="-bottom-3 right-4 rotate-3" />
             </div>
           </div>
 
