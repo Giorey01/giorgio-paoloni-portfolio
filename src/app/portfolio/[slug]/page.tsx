@@ -2,8 +2,8 @@ import React from "react";
 // Importazioni per leggere file dal server e gestire percorsi
 import fs from 'fs/promises';
 import path from 'path';
-// Importa il componente per le immagini ottimizzate
-import Image from "next/image";
+// Importa il componente Client per gestire la visualizzazione interattiva delle immagini
+import ImageGallery from "@/components/ImageGallery";
 
 // Definisce le Props per questa pagina.
 // Dato che la cartella si chiama "[slug]", Next.js passerà dinamicamente un parametro "slug" alla pagina.
@@ -119,28 +119,9 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
         {decodeURIComponent(slug).replace(/-/g, " ")}
       </h1>
 
-      {/* Griglia semplice per le foto usando Tailwind CSS.
-          Aumenta progressivamente le colonne in base allo schermo: 1 -> 2 -> 3 -> 4 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        {/* Generiamo un div e un'Immagine per ogni elemento dell'array */}
-        {currentAlbumImages.map((imageDetail, index) => {
-          // Ricava un nome per l'alt-text estraendo il nome del file finale dall'URL
-          const altText = imageDetail.url.substring(imageDetail.url.lastIndexOf('/') + 1) || `Image ${index + 1} for ${slug}`;
-          return (
-            // Usa una proporzione fissa (aspect-ratio 4:3) per fare in modo che tutte le foto quadrate siano alte uguali
-            <div key={imageDetail.url || index} className="relative w-full aspect-[4/3] overflow-hidden rounded-lg shadow-md">
-              <Image
-                src={imageDetail.url}
-                alt={altText}
-                fill // 'fill' dice a Next/Image di riempire completamente il div contenitore (che DEVE essere 'relative')
-                className="object-cover w-full h-full rounded-md hover:scale-105 transition-transform duration-300" // object-cover evita che la foto si deformi (la taglia)
-                placeholder="blur"
-                blurDataURL={imageDetail.blurDataURL}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {/* Passiamo le immagini del server al Client Component ImageGallery
+          che si occuperà di mostrare la griglia e il carosello interattivo. */}
+      <ImageGallery images={currentAlbumImages} slug={slug} />
     </div>
   );
 };
