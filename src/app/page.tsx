@@ -1,112 +1,120 @@
-// Importa il componente per mostrare la card di un progetto o album nel portfolio
-import PortfolioCard from "@/components/portfoliocard";
-// Importa il modulo del file system di Node.js (fs) nella sua versione a Promesse (asincrona)
-// Questo ci permette di leggere i file fisici del server.
 import fs from 'fs/promises';
-// Importa il modulo path per gestire facilmente i percorsi dei file sul server
 import path from 'path';
-// Importa un componente wrapper (involucro) per creare l'effetto griglia "Masonry" (tipo Pinterest)
-import MasonryWrapper from '@/components/MasonryWrapper';
+import { PaperTexture } from "@/components/ScrapbookDecorations";
+import ScrapbookCard from '@/components/ScrapbookCard';
 
-// Definisce la struttura (tipo di dato) per un singolo dettaglio di un'immagine
 interface ImageDetail {
-  url: string;            // Il link all'immagine vera e propria
-  blurDataURL: string;    // L'immagine sfocata a bassa risoluzione mostrata durante il caricamento
+  url: string;
+  blurDataURL: string;
 }
 
-// Definisce un "dizionario" dove la chiave è il nome della cartella e il valore è la lista di immagini
 interface ImageUrlsData {
   [folderKey: string]: ImageDetail[];
 }
 
-// Questa è una pagina definita come Server Component (è il comportamento predefinito in Next.js App Router).
-// La funzione è 'async', il che significa che può "aspettare" il caricamento di dati prima di inviare il codice HTML al browser.
 export default async function Home() {
   let imageData: ImageUrlsData = {};
-  // Crea il percorso assoluto per il file json 'image_urls.json' unendo la directory corrente del processo e il percorso del file.
   const jsonFilePath = path.join(process.cwd(), 'src', 'data', 'image_urls.json');
 
   try {
-    // Prova a leggere il contenuto del file JSON dal file system del server
     const fileContent = await fs.readFile(jsonFilePath, 'utf-8');
-    // Converte il testo letto in un oggetto JavaScript utilizzabile
     imageData = JSON.parse(fileContent) as ImageUrlsData;
   } catch (error) {
-    // Se qualcosa va storto (es. file non trovato), stampa l'errore nel terminale del server
     console.error("Failed to read or parse image_urls.json:", error);
   }
 
-  // Prepara i dati del portfolio partendo dalle cartelle trovate nel JSON
   const portfolioFolders = Object.entries(imageData)
-    // .filter: tieni solo le cartelle che iniziano con "Portfolio/"
     .filter(([folderKey]) => folderKey.startsWith("Portfolio/"))
-    // .map: trasforma i dati in un formato più semplice e comodo per la pagina
     .map(([folderKey, imageObjects]) => {
-      // Controlla che ci sia almeno un'immagine e che abbia un URL valido
       if (imageObjects && imageObjects.length > 0 && imageObjects[0] && imageObjects[0].url) {
         return {
           folderKey,
-          coverImageUrl: imageObjects[0].url, // Usa la prima immagine come copertina (cover)
-          blurDataURL: imageObjects[0].blurDataURL || "", // Fornisce un fallback per blurDataURL se mancante
+          coverImageUrl: imageObjects[0].url,
+          blurDataURL: imageObjects[0].blurDataURL || "",
         };
       }
-      // Ritorna le proprietà undefined se non è stata trovata un'immagine valida come copertina
       return { folderKey, coverImageUrl: undefined, blurDataURL: undefined };
     })
-    // .filter: infine rimuovi dall'array tutti quegli elementi senza immagine di copertina
     .filter(item => item.coverImageUrl !== undefined);
 
-  // Configura quante colonne la griglia "Masonry" deve mostrare in base alla larghezza dello schermo
-  const breakpointColumnsObj = {
-    default: 3, // Per default 3 colonne (schermi grandi)
-    900: 2,     // Sotto i 900px di larghezza, passa a 2 colonne
-    750: 1      // Sotto i 750px di larghezza, passa a 1 colonna (es. smartphone)
-  };
+  // Per creare un effetto "caotico" ma controllato, definiamo un array di stili preimpostati (rotazioni, margini, z-index).
+  // Li applicheremo in ciclo (modulo) agli elementi per non avere un collage completamente randomico e ingestibile.
+  const collageStyles = [
+    { rotation: "rotate-[-3deg]", zIndex: 10, tapePosition: "top" as const, stampType: "postage" as const, marginTop: "mt-0" },
+    { rotation: "rotate-[4deg]", zIndex: 20, tapePosition: "corners" as const, stampType: "none" as const, marginTop: "md:mt-24 mt-12" },
+    { rotation: "rotate-[-1deg]", zIndex: 5, tapePosition: "bottom" as const, stampType: "scribble" as const, marginTop: "md:mt-8 mt-4" },
+    { rotation: "rotate-[2deg]", zIndex: 30, tapePosition: "top" as const, stampType: "approval" as const, marginTop: "md:-mt-16 -mt-8" },
+    { rotation: "rotate-[-5deg]", zIndex: 15, tapePosition: "corners" as const, stampType: "postage" as const, marginTop: "md:mt-32 mt-16" },
+    { rotation: "rotate-[1deg]", zIndex: 25, tapePosition: "bottom" as const, stampType: "none" as const, marginTop: "md:-mt-4 mt-0" },
+  ];
 
   return (
-    <div>
-      {/* Prima Sezione: Titolo e Descrizione di benvenuto */}
-      <section className="py-16 md:py-24 px-4 md:px-6 bg-white text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif mb-6 md:mb-8 italic">Dive into my world</h2>
-          <p className="text-gray-500 leading-relaxed font-light text-sm md:text-base">
-            A curated selection of moments frozen in time, where the raw power of nature meets the delicate silence of the wilderness. From deep mossy forests to sun-drenched canyon rivers.
-          </p>
+    // Sfondo principale con texture carta e colore caldo che abbiamo aggiunto in globals.css
+    <div className="min-h-screen relative overflow-hidden bg-[#fcfbf8]">
+      {/* Texture della carta in overlay, mixata con il colore di fondo */}
+      <PaperTexture className="fixed inset-0 pointer-events-none z-0" />
+
+      {/* Hero Section: Tipografia Gigante ed Editoriale */}
+      <section className="relative z-10 pt-24 md:pt-40 px-6 max-w-[1800px] mx-auto overflow-hidden">
+        {/* Cerchio scarabocchiato enorme per riempire lo spazio bianco */}
+        <div className="absolute top-10 md:top-20 -left-20 w-[600px] h-[600px] opacity-10 pointer-events-none rounded-full border-[3px] border-dashed border-gray-600 rotate-12" />
+
+        <div className="relative z-20 flex flex-col justify-center items-start md:items-center text-left md:text-center w-full">
+          {/* Titolo Principale in stile magazine/giornale */}
+          <h1 className="font-serif italic text-6xl md:text-[120px] lg:text-[160px] xl:text-[200px] leading-[0.8] tracking-tighter text-[#1a1a1a] uppercase select-none">
+            Selected
+            <br />
+            <span className="font-sans font-bold tracking-widest text-4xl md:text-[60px] lg:text-[90px] xl:text-[120px] not-italic ml-4 md:ml-20">Works</span>
+          </h1>
+
+          <div className="mt-8 md:mt-12 md:max-w-3xl md:mx-auto md:text-center flex flex-col items-start md:items-center">
+            <p className="font-serif italic text-2xl md:text-4xl text-gray-600 mb-6 border-b border-gray-300 pb-4 inline-block">
+              Archive & Journal
+            </p>
+            <p className="font-sans text-xs md:text-sm uppercase tracking-[0.3em] font-semibold text-[#1a1a1a] max-w-lg leading-relaxed mix-blend-multiply">
+              A curated selection of moments frozen in time, where the raw power of nature meets the delicate silence of the wilderness. From deep mossy forests to sun-drenched canyon rivers.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Seconda Sezione: La griglia delle gallerie portfolio */}
-      <section className="pb-16 md:pb-24 px-4 md:px-12 max-w-[1600px] mx-auto" id="portfolio">
+      {/* Sezione Portfolio: Layout Collage/Scrapbook Libero */}
+      {/* Rimuoviamo il MasonryWrapper e usiamo un sistema di flex wrap o grid irregolare */}
+      <section className="relative z-20 pb-32 pt-20 px-6 md:px-16 max-w-[1600px] mx-auto" id="portfolio">
         {portfolioFolders.length > 0 ? (
-          /* Usa il wrapper Masonry per disporre gli elementi in modo irregolare ed estetico */
-          <MasonryWrapper
-            breakpointCols={breakpointColumnsObj}
-            className="flex w-auto gap-4 md:gap-8"
-            columnClassName="bg-clip-padding flex flex-col gap-4 md:gap-8"
-          >
-            {/* Scorre l'array di cartelle per creare una PortfolioCard per ciascuna.
-                '.map' è come un ciclo 'for' di base che ritorna HTML (JSX) per ogni elemento. */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-x-16 lg:gap-x-24 place-items-center">
             {portfolioFolders.map(({ folderKey, coverImageUrl, blurDataURL }, index) => {
-              // Se manca l'url della copertina, ignora questo elemento e passa al successivo
               if (!coverImageUrl) return null;
 
+              // Applica ciclicamente gli stili di rotazione e margine per l'effetto scrapbook
+              const styleProps = collageStyles[index % collageStyles.length];
+
               return (
-                // 'key' è fondamentale in React quando si creano liste, aiuta React a riconoscere i singoli elementi
-                <div key={folderKey || index}>
-                  <PortfolioCard
-                    folderKey={folderKey} // Passa il nome della cartella (es. "Portfolio/Giappone") come props
-                    coverImageUrl={coverImageUrl} // Passa l'immagine di copertina come props
-                    blurDataURL={blurDataURL || ""} // Passa i dati dell'immagine sfocata
+                <div key={folderKey || index} className="w-full max-w-[500px] relative">
+                  <ScrapbookCard
+                    folderKey={folderKey}
+                    coverImageUrl={coverImageUrl}
+                    blurDataURL={blurDataURL || ""}
+                    rotation={styleProps.rotation}
+                    zIndex={styleProps.zIndex}
+                    tapePosition={styleProps.tapePosition}
+                    stampType={styleProps.stampType}
+                    marginTop={styleProps.marginTop}
                   />
                 </div>
               );
             })}
-          </MasonryWrapper>
+          </div>
         ) : (
-          // Mostra un messaggio di errore all'utente se non sono state trovate cartelle/immagini
-          <p className="text-center text-red-500">Could not load portfolio items. Please try again later.</p>
+          <p className="text-center text-red-500 font-mono text-sm uppercase">Archive empty. Connection lost.</p>
         )}
       </section>
+
+      {/* Footer Editoriale della Homepage (opzionale, per chiudere la pagina) */}
+      <footer className="relative z-10 border-t-2 border-dashed border-gray-300 mx-6 md:mx-16 mt-16 py-8 flex justify-between items-center text-[#1a1a1a]">
+        <span className="font-serif italic text-xl">End of Selection</span>
+        <span className="font-sans uppercase text-[10px] tracking-[0.3em] font-bold">Vol. 01 / Current Year</span>
+      </footer>
     </div>
   );
 }
