@@ -9,8 +9,49 @@ import { isValidEmail, escapeHtml } from '@/utils/validation';
 let cachedTransporter: nodemailer.Transporter | null = null;
 let cachedTestAccount: nodemailer.TestAccount | null = null;
 
+// In-memory rate limiting per prevenire abusi (spam/DoS)
+const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minuto
+const MAX_REQUESTS_PER_WINDOW = 5;
+const MAX_MAP_SIZE = 1000; // Previene esaurimento memoria (DoS)
+
 export async function POST(request: Request) {
   try {
+    // SECURITY: Rate limiting basato su IP per limitare le richieste
+    // Nota: x-forwarded-for puo' essere spoofato. Un rate limiter piu' robusto userebbe Redis e controllerebbe proxy fidati.
+    // Per ora, limitiamo la dimensione della mappa per evitare OOM (Out Of Memory).
+    let ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown';
+    const now = Date.now();
+
+    // Evita crescita infinita della mappa
+    if (rateLimitMap.size > MAX_MAP_SIZE) {
+        // Pulisce le entry scadute
+        rateLimitMap.forEach((value, key) => {
+            if (now - value.timestamp >= RATE_LIMIT_WINDOW_MS) {
+                rateLimitMap.delete(key);
+            }
+        });
+        // Se e' ancora troppo grande, svuotala per sicurezza
+        if (rateLimitMap.size > MAX_MAP_SIZE) {
+            rateLimitMap.clear();
+        }
+    }
+
+    const rateLimitData = rateLimitMap.get(ip);
+
+    if (rateLimitData && now - rateLimitData.timestamp < RATE_LIMIT_WINDOW_MS) {
+      if (rateLimitData.count >= MAX_REQUESTS_PER_WINDOW) {
+        console.warn(`[SECURITY] Rate limit exceeded per IP: ${ip}`);
+        return NextResponse.json(
+          { error: 'Too many requests. Please try again later.' },
+          { status: 429 }
+        );
+      }
+      rateLimitData.count += 1;
+    } else {
+      rateLimitMap.set(ip, { count: 1, timestamp: now });
+    }
+
     const body = await request.json();
     const { email, message } = body;
 
