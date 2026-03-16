@@ -114,7 +114,7 @@ export default function ImageGallery({ images, slug }: ImageGalleryProps) {
                 sizes="100vw"
                 style={{ width: '100%', height: 'auto' }}
                 // group-hover applica un effetto di scale quando si passa col mouse sull'intero contenitore
-                className="object-cover w-full h-auto rounded-md transition-transform duration-300 group-hover:scale-105"
+                className="object-cover w-full h-auto transition-transform duration-300 group-hover:scale-105"
                 placeholder="blur"
                 blurDataURL={imageDetail.blurDataURL}
               />
