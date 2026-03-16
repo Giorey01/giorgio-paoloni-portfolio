@@ -15,7 +15,7 @@ interface PostCardProps {
 function PostCard({ post }: PostCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block h-full">
-      <div className="bg-[#f3f4f6] rounded-2xl border border-gray-200 shadow-sm overflow-hidden
+      <div className="bg-[#f3f4f6] border border-gray-200 shadow-sm overflow-hidden
                   flex flex-col h-full
                   hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out">
         
