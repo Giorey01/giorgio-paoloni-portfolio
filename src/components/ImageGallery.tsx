@@ -104,7 +104,7 @@ export default function ImageGallery({ images, slug }: ImageGalleryProps) {
               // Quando l'utente clicca su una foto, cambiamo lo stato impostando l'indice cliccato.
               // Questo triggera un ri-rendering (refresh) e fa aprire il modale (isModalOpen diventa true).
               onClick={() => setSelectedIndex(index)}
-              className="relative w-full overflow-hidden mb-4 md:mb-6 rounded-lg shadow-md cursor-pointer group"
+              className="relative w-full overflow-hidden mb-4 md:mb-6 shadow-md cursor-pointer group"
             >
               <Image
                 src={imageDetail.url}
