@@ -6,31 +6,107 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 2.8s
- ○ Compiling / ...
- ✓ Compiled / in 9.8s (591 modules)
- GET / 200 in 10548ms
-TypeError: fetch failed
-    at node:internal/deps/undici/undici:14902:13
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async fetchExternalImage (/app/node_modules/next/dist/server/image-optimizer.js:565:17)
-    at async DevServer.imageOptimizer (/app/node_modules/next/dist/server/next-server.js:650:48)
-    at async cacheEntry.imageResponseCache.get.incrementalCache (/app/node_modules/next/dist/server/next-server.js:182:65)
-    at async /app/node_modules/next/dist/server/response-cache/index.js:90:36
-    at async /app/node_modules/next/dist/lib/batcher.js:45:32 {
-  [cause]: Error: getaddrinfo EAI_AGAIN via.placeholder.com
-      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
-      at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
-    errno: -3001,
-    code: 'EAI_AGAIN',
-    syscall: 'getaddrinfo',
-    hostname: 'via.placeholder.com'
-  }
-}
- ○ Compiling /_error ...
- ✓ Compiled /about in 7.7s (791 modules)
- ⚠ You have added a custom /_error page without a custom /404 page. This prevents the 404 page from being auto statically optimized.
-See here for info: https://nextjs.org/docs/messages/custom-error-no-custom-404
- GET /_next/image?url=https%3A%2F%2Fvia.placeholder.com%2F800x600.png%3Ftext%3DMock%2BImage&w=640&q=75 500 in 8164ms
- GET /_next/image?url=https%3A%2F%2Fvia.placeholder.com%2F800x600.png%3Ftext%3DMock%2BImage&w=640&q=75 500 in 7931ms
- GET /about 200 in 4634ms
+ ✓ Ready in 3.3s
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 12.9s (547 modules)
+ GET /this-route-does-not-exist 404 in 13460ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/app/.next/server/vendor-chunks'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving './vendor-chunks/@vercel' in /app/.next/server for build dependencies doesn't lead to expected result '/app/.next/server/vendor-chunks/@vercel.js', but to 'Error: Can't resolve './vendor-chunks/@vercel' in '/app/.next/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ./vendor-chunks/@vercel (expected /app/.next/server/vendor-chunks/@vercel.js)
+<w>  at file dependencies /app/.next/server/webpack-runtime.js
+<w>  at file /app/.next/server/webpack-runtime.js
+<w>  at file dependencies /app/.next/server/app/_not-found/page.js
+<w>  at file /app/.next/server/app/_not-found/page.js
+<w>  at file dependencies /app/node_modules/next/dist/server/require.js
+<w>  at file /app/node_modules/next/dist/server/require.js
+<w>  at file dependencies /app/node_modules/next/dist/server/load-components.js
+<w>  at file /app/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /app/node_modules/next/dist/build/utils.js
+<w>  at file /app/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/swc/index.js
+<w>  at file /app/node_modules/next/dist/build/swc/index.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at resolve commonjs /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving './vendor-chunks/@swc' in /app/.next/server for build dependencies doesn't lead to expected result '/app/.next/server/vendor-chunks/@swc.js', but to 'Error: Can't resolve './vendor-chunks/@swc' in '/app/.next/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ./vendor-chunks/@swc (expected /app/.next/server/vendor-chunks/@swc.js)
+<w>  at file dependencies /app/.next/server/webpack-runtime.js
+<w>  at file /app/.next/server/webpack-runtime.js
+<w>  at file dependencies /app/.next/server/app/_not-found/page.js
+<w>  at file /app/.next/server/app/_not-found/page.js
+<w>  at file dependencies /app/node_modules/next/dist/server/require.js
+<w>  at file /app/node_modules/next/dist/server/require.js
+<w>  at file dependencies /app/node_modules/next/dist/server/load-components.js
+<w>  at file /app/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /app/node_modules/next/dist/build/utils.js
+<w>  at file /app/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/swc/index.js
+<w>  at file /app/node_modules/next/dist/build/swc/index.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at resolve commonjs /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving './vendor-chunks/react-icons' in /app/.next/server for build dependencies doesn't lead to expected result '/app/.next/server/vendor-chunks/react-icons.js', but to 'Error: Can't resolve './vendor-chunks/react-icons' in '/app/.next/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ./vendor-chunks/react-icons (expected /app/.next/server/vendor-chunks/react-icons.js)
+<w>  at file dependencies /app/.next/server/webpack-runtime.js
+<w>  at file /app/.next/server/webpack-runtime.js
+<w>  at file dependencies /app/.next/server/app/_not-found/page.js
+<w>  at file /app/.next/server/app/_not-found/page.js
+<w>  at file dependencies /app/node_modules/next/dist/server/require.js
+<w>  at file /app/node_modules/next/dist/server/require.js
+<w>  at file dependencies /app/node_modules/next/dist/server/load-components.js
+<w>  at file /app/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /app/node_modules/next/dist/build/utils.js
+<w>  at file /app/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/flight-client-entry-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file /app/node_modules/next/dist/build/webpack-config.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file /app/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file dependencies /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file /app/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file /app/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file dependencies /app/node_modules/next/dist/build/swc/index.js
+<w>  at file /app/node_modules/next/dist/build/swc/index.js
+<w>  at file dependencies /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at file /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+<w>  at resolve commonjs /app/node_modules/next/dist/build/webpack/loaders/next-barrel-loader.js
+ GET /this-route-does-not-exist 404 in 39ms
+ GET /_next/static/css/app/layout.css?v=1773700122392 404 in 61ms
+ GET /_next/static/chunks/webpack.js?v=1773700122392 404 in 90ms
+ GET /_next/static/chunks/main-app.js?v=1773700122392 404 in 90ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 71ms
+ GET /_next/static/chunks/app/layout.js 404 in 71ms

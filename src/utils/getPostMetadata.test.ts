@@ -17,7 +17,12 @@ describe("getPostMetadata", () => {
   });
 
   test("should return post metadata for markdown files and ignore other files", async () => {
-    readdirSpy.mockResolvedValue(["post1.md", "post2.md", "image.jpg", "document.pdf"] as any);
+    readdirSpy.mockResolvedValue([
+      { isFile: () => true, name: "post1.md" },
+      { isFile: () => true, name: "post2.md" },
+      { isFile: () => true, name: "image.jpg" },
+      { isFile: () => false, name: "document.pdf" }
+    ] as any);
 
     readFileSpy.mockImplementation(async (path: any) => {
       if (path === "posts/post1.md") {
@@ -61,7 +66,7 @@ Content 2`;
       slug: "post2",
     });
 
-    expect(readdirSpy).toHaveBeenCalledWith("posts/");
+    expect(readdirSpy).toHaveBeenCalledWith("posts", { withFileTypes: true });
     expect(readFileSpy).toHaveBeenCalledTimes(2);
     expect(readFileSpy).toHaveBeenCalledWith("posts/post1.md", "utf-8");
     expect(readFileSpy).toHaveBeenCalledWith("posts/post2.md", "utf-8");
@@ -73,21 +78,22 @@ Content 2`;
     const result = await getPostMetadata("posts");
 
     expect(result).toHaveLength(0);
-    expect(readdirSpy).toHaveBeenCalledWith("posts/");
+    expect(readdirSpy).toHaveBeenCalledWith("posts", { withFileTypes: true });
     expect(readFileSpy).not.toHaveBeenCalled();
   });
 
-  test("should throw an error if the directory does not exist", async () => {
+  test("should not throw an error if the directory does not exist, but return empty array", async () => {
     const error = new Error("Directory not found");
     readdirSpy.mockRejectedValue(error);
 
-    await expect(getPostMetadata("non-existent-folder")).rejects.toThrow("Directory not found");
-    expect(readdirSpy).toHaveBeenCalledWith("non-existent-folder/");
+    const result = await getPostMetadata("non-existent-folder");
+    expect(result).toEqual([]);
+    expect(readdirSpy).toHaveBeenCalledWith("non-existent-folder", { withFileTypes: true });
     expect(readFileSpy).not.toHaveBeenCalled();
   });
 
-  test("should handle missing frontmatter fields gracefully", async () => {
-    readdirSpy.mockResolvedValue(["incomplete.md"] as any);
+  test("should handle missing frontmatter fields gracefully by skipping", async () => {
+    readdirSpy.mockResolvedValue([{ isFile: () => true, name: "incomplete.md" }] as any);
 
     readFileSpy.mockImplementation(async () => {
       return `---
@@ -98,13 +104,6 @@ Content`;
 
     const result = await getPostMetadata("posts");
 
-    expect(result).toHaveLength(1);
-    expect(result[0]).toEqual({
-      title: "Incomplete Post",
-      date: undefined,
-      desc: undefined,
-      thumbnail: undefined,
-      slug: "incomplete",
-    });
+    expect(result).toHaveLength(0);
   });
 });
