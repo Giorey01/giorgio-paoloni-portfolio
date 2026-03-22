@@ -18,9 +18,11 @@ const MAX_MAP_SIZE = 1000; // Previene esaurimento memoria (DoS)
 export async function POST(request: Request) {
   try {
     // SECURITY: Rate limiting basato su IP per limitare le richieste
-    // Nota: x-forwarded-for puo' essere spoofato. Un rate limiter piu' robusto userebbe Redis e controllerebbe proxy fidati.
+    // Estraiamo l'ultimo IP della catena x-forwarded-for (quello aggiunto dal nostro proxy fidato, es. Vercel)
+    // per prevenire lo spoofing dell'IP che permetterebbe di bypassare il rate limit.
     // Per ora, limitiamo la dimensione della mappa per evitare OOM (Out Of Memory).
-    let ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown';
+    const xForwardedFor = request.headers.get('x-forwarded-for');
+    let ip = xForwardedFor ? xForwardedFor.split(',').pop()?.trim() : request.headers.get('x-real-ip') || 'unknown';
     const now = Date.now();
 
     // Evita crescita infinita della mappa
