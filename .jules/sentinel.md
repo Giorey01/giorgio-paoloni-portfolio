@@ -7,3 +7,8 @@
 **Vulnerability:** The rate limiter in the contact form API was extracting the client IP using `x-forwarded-for.split(',')[0]`. This allows a malicious user to trivially bypass rate limits by spoofing the `X-Forwarded-For` header and supplying a comma-separated list of fake IPs.
 **Learning:** In environments behind reverse proxies (like Vercel), the outermost trusted proxy appends the real client IP to the *end* of the `x-forwarded-for` chain. Taking the first IP is insecure because the client can inject arbitrary values at the start of the chain.
 **Prevention:** Always extract the *last* IP address in the `x-forwarded-for` chain (or rely on platform-specific verified headers) to securely identify clients for rate limiting and prevent IP spoofing bypasses.
+
+## 2024-05-24 - [MEDIUM] Add missing security headers (CSP and HSTS)
+**Vulnerability:** The application was missing `Content-Security-Policy` (CSP) and `Strict-Transport-Security` (HSTS) headers. This leaves the application vulnerable to XSS and downgrade attacks.
+**Learning:** In Next.js applications, adding security headers to `next.config.mjs` provides a critical layer of defense in depth.
+**Prevention:** Always enforce a baseline permissive CSP and HSTS in `next.config.mjs` to protect against XSS and ensure secure connections.
