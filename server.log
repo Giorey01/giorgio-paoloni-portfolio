@@ -1,33 +1,11 @@
 
-> giorgio-paoloni-portfolio@0.1.0 dev
-> next dev
+> giorgio-paoloni-portfolio@0.1.0 start
+> next start
 
   ▲ Next.js 14.2.3
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 2.9s
- ○ Compiling / ...
- ✓ Compiled / in 10.4s (591 modules)
- GET / 200 in 10912ms
-TypeError: fetch failed
-    at node:internal/deps/undici/undici:14902:13
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async fetchExternalImage (/app/node_modules/next/dist/server/image-optimizer.js:565:17)
-    at async DevServer.imageOptimizer (/app/node_modules/next/dist/server/next-server.js:650:48)
-    at async cacheEntry.imageResponseCache.get.incrementalCache (/app/node_modules/next/dist/server/next-server.js:182:65)
-    at async /app/node_modules/next/dist/server/response-cache/index.js:90:36
-    at async /app/node_modules/next/dist/lib/batcher.js:45:32 {
-  [cause]: Error: getaddrinfo EAI_AGAIN via.placeholder.com
-      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
-      at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
-    errno: -3001,
-    code: 'EAI_AGAIN',
-    syscall: 'getaddrinfo',
-    hostname: 'via.placeholder.com'
-  }
-}
- ○ Compiling /_error ...
- ✓ Compiled /_error in 7.6s (791 modules)
- ⚠ You have added a custom /_error page without a custom /404 page. This prevents the 404 page from being auto statically optimized.
-See here for info: https://nextjs.org/docs/messages/custom-error-no-custom-404
+ ✓ Ready in 422ms
+No images found for slug "%". Looked for folder key matching the slug.
+No images found for slug "%". Looked for folder key matching the slug.
