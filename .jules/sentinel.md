@@ -7,3 +7,8 @@
 **Vulnerability:** The rate limiter in the contact form API was extracting the client IP using `x-forwarded-for.split(',')[0]`. This allows a malicious user to trivially bypass rate limits by spoofing the `X-Forwarded-For` header and supplying a comma-separated list of fake IPs.
 **Learning:** In environments behind reverse proxies (like Vercel), the outermost trusted proxy appends the real client IP to the *end* of the `x-forwarded-for` chain. Taking the first IP is insecure because the client can inject arbitrary values at the start of the chain.
 **Prevention:** Always extract the *last* IP address in the `x-forwarded-for` chain (or rely on platform-specific verified headers) to securely identify clients for rate limiting and prevent IP spoofing bypasses.
+
+## 2024-05-24 - [HIGH] Secure IP extraction for Rate Limiting
+**Vulnerability:** The rate limiter in the contact form API was extracting the client IP using `x-forwarded-for.split(',')[0]` initially, then was changed to `x-forwarded-for.split(',').at(-1)` but missing the robust and native `request.ip` provided by Next.js in production (Vercel).
+**Learning:** Next.js provides `request.ip` which securely resolves the IP from Vercel edge/platform headers preventing spoofing bypasses directly without manual header parsing which can be error-prone or platform-dependent.
+**Prevention:** Always use `request.ip` from `NextRequest` for rate limiting to securely identify clients. Fallback to extracting the *last* IP address in the `x-forwarded-for` chain only if `request.ip` is undefined (e.g. local dev or non-Vercel environments without specific trusted headers setup).
