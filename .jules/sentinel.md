@@ -7,3 +7,8 @@
 **Vulnerability:** The rate limiter in the contact form API was extracting the client IP using `x-forwarded-for.split(',')[0]`. This allows a malicious user to trivially bypass rate limits by spoofing the `X-Forwarded-For` header and supplying a comma-separated list of fake IPs.
 **Learning:** In environments behind reverse proxies (like Vercel), the outermost trusted proxy appends the real client IP to the *end* of the `x-forwarded-for` chain. Taking the first IP is insecure because the client can inject arbitrary values at the start of the chain.
 **Prevention:** Always extract the *last* IP address in the `x-forwarded-for` chain (or rely on platform-specific verified headers) to securely identify clients for rate limiting and prevent IP spoofing bypasses.
+
+## 2025-04-04 - [HIGH] Prevent URIError (500 Crash) from Untrusted decodeURIComponent Input
+**Vulnerability:** The application used `decodeURIComponent(slug)` directly on a dynamic route parameter (`params.slug`). If an attacker provides a malformed URL parameter (like `"%"`), it triggers an unhandled `URIError` crash, resulting in a 500 Internal Server Error.
+**Learning:** Next.js dynamic route parameters are effectively untrusted user input. Standard JavaScript decoding and parsing functions (`decodeURIComponent`, `JSON.parse`) must always be treated carefully when operating on untrusted input to prevent unhandled exceptions that can degrade availability.
+**Prevention:** Always wrap `decodeURIComponent`, `decodeURI`, and `JSON.parse` operations that handle external input within `try...catch` blocks to gracefully handle malformed data and return an appropriate error UI or response instead of crashing the server.
