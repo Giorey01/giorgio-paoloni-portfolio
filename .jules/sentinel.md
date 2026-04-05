@@ -7,3 +7,8 @@
 **Vulnerability:** The rate limiter in the contact form API was extracting the client IP using `x-forwarded-for.split(',')[0]`. This allows a malicious user to trivially bypass rate limits by spoofing the `X-Forwarded-For` header and supplying a comma-separated list of fake IPs.
 **Learning:** In environments behind reverse proxies (like Vercel), the outermost trusted proxy appends the real client IP to the *end* of the `x-forwarded-for` chain. Taking the first IP is insecure because the client can inject arbitrary values at the start of the chain.
 **Prevention:** Always extract the *last* IP address in the `x-forwarded-for` chain (or rely on platform-specific verified headers) to securely identify clients for rate limiting and prevent IP spoofing bypasses.
+
+## 2024-05-24 - [MEDIUM] Unhandled URIError in dynamic route parameter decoding
+**Vulnerability:** The dynamic route parameter `slug` was passed directly to `decodeURIComponent()` without a `try...catch` block. A maliciously malformed URL could cause an unhandled `URIError`, resulting in a 500 Internal Server Error crash.
+**Learning:** Dynamic route parameters (`params.slug`) are untrusted user input and can contain invalid encoding.
+**Prevention:** Always wrap functions that decode or parse untrusted input (like `decodeURIComponent` or `JSON.parse`) in `try...catch` blocks to fail gracefully and prevent server crashes.
