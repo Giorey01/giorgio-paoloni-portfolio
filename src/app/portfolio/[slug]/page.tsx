@@ -81,7 +81,14 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = params; // Estrae lo slug dall'URL (es: "giappone")
 
   // Decodifica eventuali caratteri speciali (es. spazi codificati come %20 in URL)
-  const decodedSlug = decodeURIComponent(slug);
+  // SECURITY: Gestione degli errori per prevenire URIError (DoS) su input utente malevolo
+  let decodedSlug: string;
+  try {
+    decodedSlug = decodeURIComponent(slug);
+  } catch (error) {
+    console.error(`Invalid slug parameter provided: ${slug}`);
+    return <div className="text-center text-red-500 p-10">Invalid URL parameter.</div>;
+  }
 
   const jsonFilePath = path.join(process.cwd(), 'src', 'data', 'image_urls.json');
   let imageData: ImageUrlsData = {};
@@ -116,7 +123,7 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
     <div className="p-4 md:p-8 lg:p-14">
       {/* Titolo in alto: formatta lo slug sostituendo i trattini con gli spazi e mettendolo in maiuscoletto */}
       <h1 className="text-3xl md:text-4xl text-center font-bold p-6 md:p-10 capitalize">
-        {decodeURIComponent(slug).replace(/-/g, " ")}
+        {decodedSlug.replace(/-/g, " ")}
       </h1>
 
       {/* Passiamo le immagini del server al Client Component ImageGallery
