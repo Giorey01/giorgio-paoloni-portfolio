@@ -12,3 +12,8 @@
 **Vulnerability:** Unhandled `URIError` when decoding URL parameters (e.g., `decodeURIComponent(slug)`) causing a 500 Internal Server Error / application crash when a user provides a malformed URL parameter like `/%A`.
 **Learning:** Dynamic route parameters (`params.slug`) should always be treated as untrusted user input, even in functions like `decodeURIComponent()` which can throw native runtime errors.
 **Prevention:** Wrap functions that decode or parse user input (like `decodeURIComponent()` or `JSON.parse()`) in a `try...catch` block to gracefully handle invalid input and return an appropriate error response (or safe fallback UI) without crashing the server.
+
+## 2024-05-24 - [CRITICAL] Prevent accidental data leakage of PII to a public test email service
+**Vulnerability:** The contact form API used `process.env.NODE_ENV !== 'production'` as the condition to fallback to an Ethereal test account if SMTP configuration was missing. This fallback is insecure as it sends the contact form data (PII) to a public email testing service (Ethereal). If an environment was misconfigured but not strictly named 'production', the system would silently fail open and transmit sensitive user data.
+**Learning:** Using `NODE_ENV` to gate security-sensitive features (like mocking data egress) is dangerous. Environment types are broad and configurations might be missing. We need a more explicit 'opt-in' mechanism for such overrides.
+**Prevention:** Always use explicit feature flags (e.g., `process.env.ENABLE_TEST_EMAIL === 'true'`) for dangerous debug/test fallbacks rather than relying on `NODE_ENV`. This ensures the fallback is only activated deliberately.
