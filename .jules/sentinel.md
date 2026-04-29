@@ -12,3 +12,8 @@
 **Vulnerability:** Unhandled `URIError` when decoding URL parameters (e.g., `decodeURIComponent(slug)`) causing a 500 Internal Server Error / application crash when a user provides a malformed URL parameter like `/%A`.
 **Learning:** Dynamic route parameters (`params.slug`) should always be treated as untrusted user input, even in functions like `decodeURIComponent()` which can throw native runtime errors.
 **Prevention:** Wrap functions that decode or parse user input (like `decodeURIComponent()` or `JSON.parse()`) in a `try...catch` block to gracefully handle invalid input and return an appropriate error response (or safe fallback UI) without crashing the server.
+
+## 2024-05-24 - [CRITICAL] Prevent PII Leakage via Insecure Test Account Fallbacks
+**Vulnerability:** The contact form API automatically created an Ethereal test account and logged the email preview URL whenever the environment was not 'production' (`process.env.NODE_ENV !== 'production'`) and SMTP credentials were missing. This exposes user Personally Identifiable Information (PII) like emails and message contents in staging, preview, or testing environments.
+**Learning:** Relying on `NODE_ENV !== 'production'` to conditionally enable test features that process sensitive data is insecure because non-production environments are often publicly accessible or shared.
+**Prevention:** Always gate test fallbacks and mock services that handle sensitive user data using explicit feature flags (e.g., `process.env.ENABLE_TEST_EMAIL === 'true'`) to ensure they are only active when intentionally enabled, preventing accidental data leakage.
