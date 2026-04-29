@@ -111,10 +111,10 @@ export async function POST(request: Request) {
       !EMAIL_FROM ||
       !EMAIL_TO
     ) {
-      // Controlliamo se ci troviamo in ambiente di sviluppo locale.
-      // E' un ottimo trucco per Next.js per facilitare lo sviluppo!
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Configurazione email mancante. Utilizzo account di test Ethereal per lo sviluppo locale.');
+      // Controlliamo se è esplicitamente abilitato l'account di test (tramite feature flag).
+      // Evitiamo di basarci solo su NODE_ENV !== 'production' per evitare leak di PII in staging.
+      if (process.env.ENABLE_TEST_EMAIL === 'true') {
+        console.warn('Configurazione email mancante. Utilizzo account di test Ethereal (ENABLE_TEST_EMAIL=true).');
 
         // Riutilizziamo l'account e il transporter se li abbiamo già creati.
         // Se non esistono ancora (prima richiesta), li creiamo e li salviamo.
@@ -187,7 +187,7 @@ export async function POST(request: Request) {
 
       // Se stiamo usando l'account di test (Ethereal), possiamo recuperare l'URL
       // del messaggio per poterlo visualizzare nel browser!
-      if (process.env.NODE_ENV !== 'production' && info.messageId) {
+      if (process.env.ENABLE_TEST_EMAIL === 'true' && info.messageId) {
         const testMessageUrl = nodemailer.getTestMessageUrl(info);
         if (testMessageUrl) {
           console.log('Preview URL: %s', testMessageUrl);
