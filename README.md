@@ -107,3 +107,11 @@ EMAIL_TO=tua_email_personale@example.com
   ```bash
   npm run lint
   ```
+
+## Test Email Fallback in Local Development
+
+If you'd like to use the Ethereal test email fallback locally without configuring full SMTP settings, set the `ENABLE_TEST_EMAIL` feature flag to `true` in your environment.
+
+```
+ENABLE_TEST_EMAIL=true
+```

@@ -12,3 +12,8 @@
 **Vulnerability:** Unhandled `URIError` when decoding URL parameters (e.g., `decodeURIComponent(slug)`) causing a 500 Internal Server Error / application crash when a user provides a malformed URL parameter like `/%A`.
 **Learning:** Dynamic route parameters (`params.slug`) should always be treated as untrusted user input, even in functions like `decodeURIComponent()` which can throw native runtime errors.
 **Prevention:** Wrap functions that decode or parse user input (like `decodeURIComponent()` or `JSON.parse()`) in a `try...catch` block to gracefully handle invalid input and return an appropriate error response (or safe fallback UI) without crashing the server.
+
+## 2024-05-24 - [HIGH] Prevent PII Leakage in Preview/Staging Environments
+**Vulnerability:** The contact form API used a fallback mechanism (`process.env.NODE_ENV !== 'production'`) to send user data (PII) to an Ethereal test account if SMTP settings were missing. If deployed to a non-production environment (like a Vercel preview or staging) without valid SMTP settings, it could silently leak user data submitted to the form to the test service.
+**Learning:** Checking `NODE_ENV` is insufficient protection against sending real user data to third-party testing services, as non-production environments may still process real (or sensitive test) data.
+**Prevention:** Secure test fallbacks with explicit feature flags (e.g., `process.env.ENABLE_TEST_EMAIL === 'true'`) rather than relying on `NODE_ENV`.
