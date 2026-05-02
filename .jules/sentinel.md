@@ -12,3 +12,8 @@
 **Vulnerability:** Unhandled `URIError` when decoding URL parameters (e.g., `decodeURIComponent(slug)`) causing a 500 Internal Server Error / application crash when a user provides a malformed URL parameter like `/%A`.
 **Learning:** Dynamic route parameters (`params.slug`) should always be treated as untrusted user input, even in functions like `decodeURIComponent()` which can throw native runtime errors.
 **Prevention:** Wrap functions that decode or parse user input (like `decodeURIComponent()` or `JSON.parse()`) in a `try...catch` block to gracefully handle invalid input and return an appropriate error response (or safe fallback UI) without crashing the server.
+
+## 2024-05-24 - Remove development-only benchmark endpoints
+**Vulnerability:** A benchmark API endpoint (`/api/benchmark`) was left in the codebase, gated only by a `NODE_ENV !== 'development'` check. This could lead to resource exhaustion (DoS) or information leakage if deployed to an environment with a misconfigured `NODE_ENV`.
+**Learning:** Relying solely on `NODE_ENV` checks for development or testing endpoints is insufficient protection in production codebases.
+**Prevention:** Development-only endpoints and benchmark scripts must be completely removed from the production codebase or separated into completely distinct build targets.
