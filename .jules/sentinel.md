@@ -12,3 +12,13 @@
 **Vulnerability:** Unhandled `URIError` when decoding URL parameters (e.g., `decodeURIComponent(slug)`) causing a 500 Internal Server Error / application crash when a user provides a malformed URL parameter like `/%A`.
 **Learning:** Dynamic route parameters (`params.slug`) should always be treated as untrusted user input, even in functions like `decodeURIComponent()` which can throw native runtime errors.
 **Prevention:** Wrap functions that decode or parse user input (like `decodeURIComponent()` or `JSON.parse()`) in a `try...catch` block to gracefully handle invalid input and return an appropriate error response (or safe fallback UI) without crashing the server.
+
+## 2024-05-25 - [HIGH] Prevent PII Leakage via Explicit Feature Flags
+**Vulnerability:** The contact form API used `process.env.NODE_ENV !== 'production'` to fallback to an Ethereal test email account. In non-production environments (like staging or preview), real user data submitted to the form could be sent to a public test email, causing PII leakage.
+**Learning:** Using `NODE_ENV` to gate features that handle sensitive data is dangerous because non-production environments can still process real user data.
+**Prevention:** Always use explicit feature flags (e.g., `process.env.ENABLE_TEST_EMAIL === 'true'`) for test fallbacks and mock data to ensure they are strictly controlled.
+
+## 2024-05-25 - [CRITICAL] Insufficient Endpoint Protection
+**Vulnerability:** The `/api/benchmark` endpoint was gated using `process.env.NODE_ENV !== 'development'`, but this is insufficient protection against resource exhaustion (DoW/DoS) in production.
+**Learning:** Gating development-only or benchmark API endpoints with environment variables is an anti-pattern. If environment variables are misconfigured, the endpoints become exposed.
+**Prevention:** Development, test, or benchmark endpoints must be completely removed from the production codebase and not just gated by environment variables.
