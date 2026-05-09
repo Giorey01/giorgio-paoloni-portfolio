@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-26 - [MEDIUM] Add missing security headers
+**Vulnerability:** The application was missing critical security headers, specifically `Strict-Transport-Security` (HSTS) and `Content-Security-Policy` (CSP), leaving it vulnerable to downgrade attacks and XSS.
+**Learning:** Even with some security headers present, a comprehensive defense-in-depth strategy requires both HSTS and a robust CSP to properly secure modern web applications.
+**Prevention:** Always implement a complete set of security headers, including HSTS and CSP, configured according to best practices and the specific needs of the application framework.
