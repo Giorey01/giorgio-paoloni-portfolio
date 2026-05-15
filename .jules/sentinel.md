@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2026-05-15 - [MEDIUM] Prevent PII Leakage via Test Email Accounts in Staging
+**Vulnerability:** The contact form API used `process.env.NODE_ENV !== 'production'` to fallback to an Ethereal test email account when email credentials were missing. In a staging environment (which might be non-production but interact with real users or data), this could cause real PII (names, emails, messages) to be sent to a public/test Ethereal account.
+**Learning:** Checking `NODE_ENV` is insufficient for gating features that handle sensitive data, as intermediate environments like 'staging' or 'preview' might trigger the fallback unintentionally.
+**Prevention:** Always use explicit, opt-in feature flags (e.g., `process.env.ENABLE_TEST_EMAIL === 'true'`) to gate test or debug functionality that could expose PII, rather than relying on broad environment states.
