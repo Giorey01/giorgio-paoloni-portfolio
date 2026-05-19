@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-25 - [HIGH] Missing Critical Security Headers (CSP & HSTS)
+**Vulnerability:** The application was missing Content-Security-Policy (CSP) and Strict-Transport-Security (HSTS) headers. This increases the risk of Cross-Site Scripting (XSS) and Man-in-the-Middle (MitM) attacks.
+**Learning:** Even static or Next.js applications need explicit security headers configured to enforce browser-level protections. Default settings are often insufficient.
+**Prevention:** Always configure comprehensive security headers in `next.config.mjs`, specifically including CSP to lock down resource origins and HSTS to enforce secure connections.
