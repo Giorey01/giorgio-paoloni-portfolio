@@ -50,7 +50,15 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const id = params?.slug ? ` · ${params.slug.replaceAll("_", " ")}` : "";
+  let decodedSlug = params?.slug || "";
+  try {
+    if (params?.slug) {
+      decodedSlug = decodeURIComponent(params.slug);
+    }
+  } catch (error) {
+    console.error("Invalid slug encoding detected in metadata:", error);
+  }
+  const id = decodedSlug ? ` · ${decodedSlug.replaceAll("_", " ")}` : "";
   return {
     title: `${getTitleAndDescMetadata().title + id}`,
   };
@@ -68,7 +76,22 @@ import { FaArrowLeft } from "react-icons/fa";
 
 function BlogPage({ params }: BlogPageProps) {
   const { slug } = params;
-  const post = getPostContent(slug);
+
+  let decodedSlug: string;
+  try {
+    decodedSlug = decodeURIComponent(slug);
+  } catch (error) {
+    console.error(`Invalid slug encoding detected: ${slug}`, error);
+    return <div className="text-center text-red-500 p-10">Invalid URL parameters provided.</div>;
+  }
+
+  let post;
+  try {
+    post = getPostContent(decodedSlug);
+  } catch (error) {
+    console.error(`Failed to load post for slug: ${decodedSlug}`, error);
+    return <div className="text-center text-red-500 p-10">Invalid or missing blog post.</div>;
+  }
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-12">
