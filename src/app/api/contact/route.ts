@@ -38,9 +38,19 @@ export async function POST(request: Request) {
                 rateLimitMap.delete(key);
             }
         });
-        // Se e' ancora troppo grande, svuotala per sicurezza
+        // Se e' ancora troppo grande, elimina l'entry piu' vecchia
         if (rateLimitMap.size > MAX_MAP_SIZE) {
-            rateLimitMap.clear();
+            let oldestKey: string | null = null;
+            let oldestTimestamp = Infinity;
+            rateLimitMap.forEach((value, key) => {
+                if (value.timestamp < oldestTimestamp) {
+                    oldestTimestamp = value.timestamp;
+                    oldestKey = key;
+                }
+            });
+            if (oldestKey) {
+                rateLimitMap.delete(oldestKey);
+            }
         }
     }
 
