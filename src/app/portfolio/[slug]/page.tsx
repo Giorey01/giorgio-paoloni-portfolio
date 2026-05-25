@@ -80,15 +80,7 @@ export const generateStaticParams = async () => {
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = params; // Estrae lo slug dall'URL (es: "giappone")
 
-  // Decodifica eventuali caratteri speciali (es. spazi codificati come %20 in URL)
-  // SECURITY: Wrap decodeURIComponent in try-catch to prevent unhandled URIError on malformed slugs
-  let decodedSlug: string;
-  try {
-    decodedSlug = decodeURIComponent(slug);
-  } catch (error) {
-    console.error(`Invalid slug encoding detected: ${slug}`, error);
-    return <div className="text-center text-red-500 p-10">Invalid URL parameters provided.</div>;
-  }
+  const decodedSlug = slug;
 
   const jsonFilePath = path.join(process.cwd(), 'src', 'data', 'image_urls.json');
   let imageData: ImageUrlsData = {};

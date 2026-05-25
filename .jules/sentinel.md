@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-26 - [HIGH] Prevent Double-Decoding URIError in Next.js Dynamic Routes
+**Vulnerability:** Double-decoding of Next.js App Router dynamic route parameters (e.g., `params.slug`) using `decodeURIComponent` introduces a Denial of Service vulnerability for valid URLs containing `%`.
+**Learning:** Next.js automatically decodes dynamic route parameters out of the box. Manually calling `decodeURIComponent` on these parameters causes a double-decoding issue that can throw unhandled `URIError`s and block legitimate users.
+**Prevention:** Never use `decodeURIComponent` on dynamic route parameters in Next.js App Router components; treat the provided `params` values as already decoded strings.
