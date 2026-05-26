@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-26 - [MEDIUM] Missing Strict-Transport-Security (HSTS) Header
+**Vulnerability:** The application was missing the `Strict-Transport-Security` (HSTS) header. Without it, attackers could perform man-in-the-middle (MITM) downgrade attacks on the initial connection, stripping away HTTPS.
+**Learning:** Relying solely on infrastructure redirects (HTTP to HTTPS) leaves the initial request vulnerable. HSTS instructs the browser to explicitly enforce HTTPS, providing defense-in-depth at the application level.
+**Prevention:** Always configure the `Strict-Transport-Security` header (e.g., `max-age=63072000; includeSubDomains; preload`) in the application's global security headers configuration (`next.config.mjs`) to ensure browsers never attempt unencrypted connections.
