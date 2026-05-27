@@ -45,6 +45,14 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()", // Limita le API dei permessi disponibili
           },
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://giorgio-paoloni-gallery-storage.s3.eu-north-1.amazonaws.com https://images.pexels.com https://d321io5nxf2wuu.cloudfront.net https://via.placeholder.com; font-src 'self'; frame-ancestors 'none';",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
         ],
       },
     ];
