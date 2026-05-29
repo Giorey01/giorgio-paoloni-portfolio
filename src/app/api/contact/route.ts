@@ -38,9 +38,10 @@ export async function POST(request: Request) {
                 rateLimitMap.delete(key);
             }
         });
-        // Se e' ancora troppo grande, svuotala per sicurezza
+        // Se e' ancora troppo grande, svuotala in modo sicuro rimuovendo la entry più vecchia
+        // per prevenire un bypass del rate limit basato su un attacco di esaurimento cache (DoS).
         if (rateLimitMap.size > MAX_MAP_SIZE) {
-            rateLimitMap.clear();
+            rateLimitMap.delete(rateLimitMap.keys().next().value);
         }
     }
 
