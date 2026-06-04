@@ -17,3 +17,7 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+## 2026-06-04 - [MEDIUM] Add Strict-Transport-Security Header
+**Vulnerability:** Missing Strict-Transport-Security (HSTS) header allows browsers to connect via HTTP, leaving the application vulnerable to man-in-the-middle (MITM) attacks and downgrade attacks.
+**Learning:** Next.js applications should explicitly define HSTS headers in `next.config.mjs` to enforce secure, encrypted connections. Adding a Content-Security-Policy (CSP) requires extreme care and exhaustive testing, as overly restrictive default policies (e.g., `default-src 'self'`) will break core functionality like analytics, external fonts, and API requests.
+**Prevention:** Include the `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload` header in the `async headers()` configuration of `next.config.mjs`.
