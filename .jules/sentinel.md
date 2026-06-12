@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-06-12 - [HIGH] Fix Cache Eviction Bypass in Rate Limiter
+**Vulnerability:** The in-memory IP-based rate limiter used `map.clear()` when its size exceeded a maximum threshold. An attacker could intentionally fill the map with requests from spoofed IPs to trigger a reset, effectively clearing the rate limit history for all IPs and bypassing the protection entirely.
+**Learning:** In-memory rate limiting strategies must handle maximum size constraints by evicting specific entries (e.g., oldest entries or least recently used) rather than wiping the entire state, which causes a Denial of Security (bypassing the intended protection).
+**Prevention:** To mitigate Cache Eviction Bypass vulnerabilities in in-memory JavaScript Maps, securely evict the oldest entry using an explicit loop (e.g., `const firstKey = map.keys().next().value; if (firstKey !== undefined) map.delete(firstKey); else break;`) instead of using `map.clear()`.
