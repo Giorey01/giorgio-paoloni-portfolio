@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-24 - [HIGH] Cache Eviction Bypass
+**Vulnerability:** Insecure map.clear() allows rate limit reset and bypass.
+**Learning:** Securely evict oldest entry to prevent DoS.
+**Prevention:** Use a while loop to delete the oldest map entry.
