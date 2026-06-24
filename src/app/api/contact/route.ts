@@ -38,9 +38,15 @@ export async function POST(request: Request) {
                 rateLimitMap.delete(key);
             }
         });
-        // Se e' ancora troppo grande, svuotala per sicurezza
-        if (rateLimitMap.size > MAX_MAP_SIZE) {
-            rateLimitMap.clear();
+        // Se e' ancora troppo grande, elimina gli elementi più vecchi uno alla volta
+        // invece di svuotarla completamente per evitare Cache Eviction Bypass
+        while (rateLimitMap.size > MAX_MAP_SIZE) {
+            const firstKey = rateLimitMap.keys().next().value;
+            if (firstKey !== undefined) {
+                rateLimitMap.delete(firstKey);
+            } else {
+                break;
+            }
         }
     }
 
