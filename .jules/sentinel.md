@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2026-07-04 - [HIGH] Prevent Rate Limiter Cache Eviction Bypass
+**Vulnerability:** The in-memory rate limiter in the contact API used `map.clear()` to prevent out-of-memory errors when the map grew too large. This allowed an attacker to trivially bypass rate limits by flooding the system with requests from fake IPs, filling the map, triggering a clear, and wiping out the rate-limiting data for their actual IP.
+**Learning:** Using `clear()` on an in-memory cache as a fallback for size management destroys the entire security state. Attackers can exploit this to wipe rate limit thresholds for all clients.
+**Prevention:** Securely evict the oldest entry using an iterator (e.g., `map.keys().next().value`) instead of clearing the entire map to ensure recent rate limit data is preserved during capacity constraints.
