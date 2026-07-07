@@ -1,0 +1,17 @@
+--- src/app/api/contact/route.ts
++++ src/app/api/contact/route.ts
+@@ -38,8 +38,13 @@
+             }
+         });
+         // Se e' ancora troppo grande, svuotala per sicurezza
+-        if (rateLimitMap.size > MAX_MAP_SIZE) {
+-            rateLimitMap.clear();
++        while (rateLimitMap.size > MAX_MAP_SIZE) {
++            const firstKey = rateLimitMap.keys().next().value;
++            if (firstKey !== undefined) {
++                rateLimitMap.delete(firstKey);
++            } else {
++                break;
++            }
+         }
+     }
