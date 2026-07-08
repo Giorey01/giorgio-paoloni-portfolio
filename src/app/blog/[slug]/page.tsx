@@ -68,7 +68,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 function BlogPage({ params }: BlogPageProps) {
   const { slug } = params;
-  const post = getPostContent(slug);
+
+  let post;
+  try {
+    post = getPostContent(slug);
+  } catch (error) {
+    console.error(`Error loading post for slug "${slug}":`, error);
+    return <div className="text-center text-red-500 p-10">Invalid post or post not found.</div>;
+  }
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-12">

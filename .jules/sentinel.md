@@ -17,3 +17,8 @@
 **Vulnerability:** Development-only or benchmark API endpoints present in the production codebase pose a severe risk of resource exhaustion and data leakage, even when gated by `process.env.NODE_ENV !== 'development'`.
 **Learning:** Gating development endpoints with environment variables is insufficient protection. Misconfigurations in production environments can inadvertently expose these endpoints, leading to severe vulnerabilities.
 **Prevention:** Development-only endpoints must never exist in the production codebase. They should be strictly maintained in separate development branches or external testing tools.
+
+## 2024-05-26 - [MEDIUM] Prevent Unhandled Exception from Invalid Slugs
+**Vulnerability:** The blog page directly called `getPostContent(slug)`, which throws an error if the slug fails regex validation. Unhandled exceptions in Next.js Server Components cause 500 Internal Server Error crashes.
+**Learning:** Dynamic route parameters (`params.slug`) are untrusted user input. Functions that validate and throw errors on invalid parameters must be handled gracefully to prevent application crashes.
+**Prevention:** Always wrap functions that can throw validation errors for dynamic parameters in a `try...catch` block and return an appropriate safe fallback UI.
